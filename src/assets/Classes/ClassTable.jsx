@@ -15,26 +15,26 @@ export default function ClassTable( props )
     // Whenever the class changes, update their fundamental stats
 
     useEffect(() => {
-        setBab(parseJSONByLevels(thisClass.bab));
-        setFortitude(parseJSONByLevels(thisClass.fortitude));
-        setReflex(parseJSONByLevels(thisClass.reflex));
-        setWill(parseJSONByLevels(thisClass.will));
+        setBab(parseStringByLevels(thisClass.bab));
+        setFortitude(parseStringByLevels(thisClass.fortitude));
+        setReflex(parseStringByLevels(thisClass.reflex));
+        setWill(parseStringByLevels(thisClass.will));
 
     }, [props]
     )
 
     // Break an input JSON apart by class levels
-    function parseJSONByLevels( inputString )
+    function parseStringByLevels( inputString )
     { 
 
-        const tempArr = [];
-        const tempJSON = JSON.parse(inputString);
+        const tempArr = inputString.split(',');
+        // const tempJSON = JSON.parse(inputString);
 
 
-        levels.map( level => 
-        {
-            tempArr.push(tempJSON[level]);
-        });
+        // levels.map( level => 
+        // {
+        //     tempArr.push(tempJSON[level]);
+        // });
 
         return tempArr;
 
@@ -69,7 +69,7 @@ export default function ClassTable( props )
             </thead>
             <tbody>
                 {levels.map( level => (
-                    <tr key={level}>
+                    <tr key={thisClass.classID + level}>
                         <td>{level}</td>
                         <td>{babCalculator(bab[level - 1])}</td>
                         <td>{fortitude[level - 1]}</td>

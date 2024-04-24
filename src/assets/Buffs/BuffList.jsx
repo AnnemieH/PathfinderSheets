@@ -59,14 +59,14 @@ export default function BuffList ( props )
             </thead>
             <tbody>
             {displayBuffs.map(buff => (
-                <tr key={buff.buff.buffID} id={buff.buff.buffID}>
-                    <td key={buff.buff.buffID + "name"}>
+                <tr key={buff.buff.buffID + "" + buff.id.level} id={buff.buff.buffID + "" + buff.id.level}>
+                    <td key={buff.buff.buffID + "" + buff.id.level + "name"}>
                         {buff.buff.buffName} 
                     </td>
-                    <td key={buff.buff.buffID + "level"}>
+                    <td key={buff.buff.buffID + "" + buff.id.level + "level"}>
                         {buff.id.level}
                     </td>
-                    <td key={buff.buff.buffID + " cancel"} className={buff.buff.buffID + " " + buff.id.level + " cancel"} onClick={cancelBuff}>
+                    <td key={buff.buff.buffID + "" + buff.id.level + " cancel"} className={buff.buff.buffID + " " + buff.id.level + " cancel"} onClick={cancelBuff}>
                         X
                     </td>
                 </tr>

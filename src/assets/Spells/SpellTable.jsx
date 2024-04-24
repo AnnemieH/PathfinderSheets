@@ -9,8 +9,33 @@ export default function SpellTable(props)
     const [levels, setLevels] = useState([]);
     const [spellLevels, setSpellLevels] = useState([]);
     const [spellJSON, setSpellJSON] = useState({});
+    const [value, setValue] = useState({});
 
     const globalMaxSpellLevel = 9
+
+    useEffect(() => {
+        setValue(props.value);
+    }, [props.value])
+
+    // Whenever props.value changes, propagate it through the table
+    useEffect(() => {
+        if ( props.value.table !== undefined )
+        {
+            for ( let level = 1; level <= props.maxLevel; ++level )
+            {
+                for ( let spellLevel = props.minSpellLevel; spellLevel <= props.maxSpellLevel; ++spellLevel )
+                {
+                    if( document.getElementById(props.id + spellLevel + "," + level) !== null )
+                    {
+                        document.getElementById(props.id + spellLevel + "," + level).value = value.table[level.toString()][spellLevel.toString()];
+                    }
+                }
+            }
+
+            // Set spellsJSON equal to valuee
+            setSpellJSON(value)
+        }
+    }, [value])
 
     // Generate an array of possible levels from props argument and store them in levels.
     useEffect(() => {
@@ -58,7 +83,7 @@ export default function SpellTable(props)
         innerJSON = innerJSON.substring(0, innerJSON.length - 1);
 
         // Add closing brace for inner JSON
-        innerJSON += '}'
+        innerJSON += '}';
 
         // Convert into JSON
         innerJSON = JSON.parse(innerJSON);
@@ -76,13 +101,13 @@ export default function SpellTable(props)
         outerJSON = outerJSON.substring(0, outerJSON.length - 1);
 
         // Add closing brace for outer JSON
-        outerJSON += '}'
+        outerJSON += '}';
 
         // Convert into JSON
         outerJSON = JSON.parse(outerJSON);
 
 
-        // Instantiate the values of outerJSOn as innerJSON
+        // Instantiate the values of outerJSON as innerJSON
         for ( let level = 1; level <= 20; ++level )
         {
             outerJSON[level] = {...innerJSON};
@@ -91,13 +116,29 @@ export default function SpellTable(props)
         setSpellJSON(outerJSON);
     }, [])
 
-    // Whenever spellJSON changes, propagate up a trimmed version
+    // Whenever spellJSON changes, propagate it upwards
     useEffect(() => {
-        // Check that spellJSON exists first
-        if (Object.keys(spellJSON).length > 0)
+        // Make sure this doesn't trigger on initial value-setting
+        if ( value !== spellJSON )
         {
-            // If it exists, propagate the trimmed version
-            props.change(trimJSON(spellJSON));
+            let isNull = true;
+
+            for ( let key in spellJSON )
+            {
+                for ( let otherKey in spellJSON[key] )
+                {
+                    if ( spellJSON[key][otherKey] != null )
+                    {
+                        isNull = false;
+                    }
+                }
+            }
+            // Check that spellJSON exists first
+            if ( isNull === false )
+            {
+                // If it exists, propagate the trimmed version
+                props.change(trimJSON(spellJSON));
+            }
         }
     }, [spellJSON])
 
@@ -105,13 +146,14 @@ export default function SpellTable(props)
     {
 
         // Read level and spellLevel from the event
-        const coords = (event.target.id).split(',');
+        // Strip out props.id from the id and split it at the comma to get coordinates
+        const coords = (event.target.id).substring(props.id.length, event.target.id.length).split(',');
         const spellLevel = coords[0];
         const level = coords[1];
 
         // Update JSON with the value at given coordinates
-        const tempJSON = spellJSON;
-        const tempInnerJSON = spellJSON[level];
+        const tempJSON = {...spellJSON};
+        const tempInnerJSON = {...spellJSON.table[level]};
         // If the value is the empty string, set the JSON at that point to be null
         if ( event.target.value == "" )
         {
@@ -122,8 +164,8 @@ export default function SpellTable(props)
         {
             tempInnerJSON[spellLevel] = event.target.value;
         }
-        tempJSON[level] = {...tempInnerJSON};
-
+        tempJSON.table[level] = {...tempInnerJSON};
+        
         setSpellJSON ({...tempJSON});
     }
 
@@ -156,7 +198,7 @@ export default function SpellTable(props)
                             <td key={"charLevel" + level}>{level}</td>
                         {spellLevels.map(spellLevel => (
                             <td key={spellLevel + "," + level + "TD"}>
-                                <input type="text" id={spellLevel + "," + level} name={spellLevel + "," + level} key={spellLevel + "," + level} size="1" onChange={changeField}/>
+                                <input type="text" id={props.id + spellLevel + "," + level} name={spellLevel + "," + level} key={spellLevel + "," + level} size="1" onChange={changeField}/>
                             </td>
                         ))}
                         </tr>

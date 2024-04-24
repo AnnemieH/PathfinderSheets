@@ -12,10 +12,10 @@ export default function NewClass ( props )
     const [baseClass, setBaseClass] = useState({});
     const [isPrestige, setIsPrestige] = useState(false);
     const [hitDie, setHitDie] = useState(0);
-    const [bab, setBab] = useState({});
-    const [fortitude, setFortitude] = useState({});
-    const [reflex, setReflex] = useState({});
-    const [will, setWill] = useState({});
+    const [bab, setBab] = useState("");
+    const [fortitude, setFortitude] = useState("");
+    const [reflex, setReflex] = useState("");
+    const [will, setWill] = useState("");
     const [buffs, setBuffs] = useState([]);
     const [isSpellcaster, setIsSpellcaster] = useState(false);
     const [castingStat, setCastingStat] = useState({})
@@ -23,7 +23,9 @@ export default function NewClass ( props )
     const [spellList, setSpellList] = useState({});
     const [magicSource, setMagicSource] = useState({});
     const [spellsPerDay, setSpellsPerDay] = useState({});
+    const [spellsPerDayString, setSpellsPerDayString] = useState("");
     const [spellsKnown, setSpellsKnown] = useState({});
+    const [spellsKnownString, setSpellsKnownString] = useState("");
     const [skillsPerLevel, setSkillsPerLevel] = useState(0);
     const [classSkills, setClassSkills] = useState([]);
 
@@ -40,6 +42,54 @@ export default function NewClass ( props )
     const [allMagicSources, setAllMagicSources] = useState([]);
 
     const [postJSON, setPostJSON] = useState({});
+
+    // Assemble postJSON whenever any constituënt changes
+    useEffect(() => {
+        setPostJSON(assemblePostJSON);
+    }, [name, baseClass, isPrestige, buffs, hitDie, bab, fortitude, reflex, will, skillsPerLevel, classSkills, casterType, castingStat, magicSource, spellList, spellsPerDay, spellsKnown])
+    
+    function assemblePostJSON ()
+    {
+        let tempJSON = {};
+
+        tempJSON.className = name;
+
+        // Check if baseClass is an empty object
+        if( JSON.stringify(baseClass).length > 2 )
+        {
+            tempJSON.archetype = baseClass;
+        }
+
+        tempJSON.isPrestige = isPrestige;
+        tempJSON.buffs = buffs;
+        tempJSON.hitDie = hitDie;
+        tempJSON.bab = bab;
+        tempJSON.fortitude = fortitude;
+        tempJSON.reflex = reflex;
+        tempJSON.will = will;
+        tempJSON.skillRanks = skillsPerLevel;
+        tempJSON.classSkills = classSkills;
+
+        if ( isSpellcaster === true )
+        {
+            tempJSON.spellcasterType = casterType;
+            tempJSON.castingAbility = castingStat;
+            tempJSON.magicSource = magicSource;
+            tempJSON.spellList = spellList;
+            tempJSON.spellsPerDay = spellsPerDayString;
+            tempJSON.spellsKnown = spellsKnownString;
+        }
+
+        return tempJSON;
+
+    }
+
+    // Whenever postJSON changes, propagate it
+    useEffect(() => {
+        console.log(postJSON)
+
+        props.jsonUpdate(postJSON, "http://localhost:8080/class/allClasses");
+    }, [postJSON])
 
     // Store all the basic attributes in an array
     useEffect(() => {
@@ -105,7 +155,9 @@ export default function NewClass ( props )
             "spellsPerDay"
         ];
 
-        if ( isSpellcaster )
+        // Only run if this is not beïng triggered by a new base class beïng loaded
+
+        if ( isSpellcaster && baseClass.className === undefined )
         {
             let tempArray = [];
 
@@ -125,18 +177,35 @@ export default function NewClass ( props )
 
             setRemainingFields(tempArray);
         }
+
+        // Only set the spellcasting stats if the class is a spellcaster and an archetype
+        if ( isSpellcaster == true && baseClass.className !== undefined )
+        {
+            document.getElementById("castingStat").value = baseClass.castingAbility.attributeID;
+            document.getElementById("spellcasterType").value = baseClass.spellcasterType.spellcasterTypeID;
+            document.getElementById("spellList").value = baseClass.spellList.spellListID;
+            document.getElementById("magicSource").value = baseClass.magicSource.magicSourceID;
+            document.getElementById("spellsPerDay").value = spellsPerDayStringToJSON(baseClass.spellsPerDay).table;
+            // Parse spells known
+            document.getElementById("spellsKnownCategory").value = spellsKnownStringToJSON(baseClass.spellsKnown).category;
+        }
+
     }, [isSpellcaster])
 
-    // Once spellsKnownCategory is set, add another field to remainingFields if appropriate
-    useEffect(() => {
-        if( spellsKnownCategory === "perLevel" || spellsKnownCategory === "complex" )
+    function setSpellsKnownVal()
+    {
+        document.getElementById("spellsKnown").value = spellsKnownStringToJSON(baseClass.spellsKnown).table;
+
+
+        // If this is not derived from a base class, add spellsKnown to remainingFields
+        if ( baseClass.className === undefined )
         {
             let tempArray = [];
             tempArray.push(document.getElementById("spellsKnown"));
-
-            
+        
+            setRemainingFields([...remainingFields.concat(tempArray)]);
         }
-    }, [spellsKnownCategory])
+    }
 
     function parentClassNameNeeded ( field )
     {
@@ -148,20 +217,23 @@ export default function NewClass ( props )
 
     // Change the class of remainingFields' parent so they can be styled differently
     useEffect(() => {
-        remainingFields.map(field => (
+
+        remainingFields.forEach(field => (
             parentClassNameNeeded( field )
         ));
     }, [remainingFields])
 
-    function removeRemainingField ( field )
+    function removeRemainingFields ( fields )
     {
-        if ( remainingFields.includes(field) )
-        {
-            field.parentNode.className = field.parentNode.className.substring(
-                0, field.parentNode.className.length - 12
-            );
-            setRemainingFields( remainingFields.filter( remField => remField != field ));
-        }
+        fields.forEach ( field => {
+            if ( remainingFields.includes(field) )
+            {
+                field.parentNode.className = field.parentNode.className.substring(
+                    0, field.parentNode.className.length - 12
+                );
+        }})
+
+        setRemainingFields( [...remainingFields.filter( remField => !fields.includes(remField) )]);
     }
 
     function nameChange ( event )
@@ -171,7 +243,7 @@ export default function NewClass ( props )
         // If it is a valid name, remove name from remaining fields, otherwise ensure that it's there
         if ( nameValidation( event.target.value ) )
         {
-            removeRemainingField(event.target)
+            removeRemainingFields([event.target])
         }
         else
         {
@@ -226,17 +298,17 @@ export default function NewClass ( props )
             setHitDie( event.target.value );
 
             // This is a valid value so remove from remainingFields
-            removeRemainingField(event.target)
+            removeRemainingFields([event.target])
         }
     }
 
     function babSelected ( event )
     {
-        // If BAB is unselected, clear JSON
-        // Otherwise create a JSON corresponding to the three BAB progressions
+        // If BAB is unselected, clear CSV
+        // Otherwise create a CSV corresponding to the three BAB progressions
         if ( event.target.value === "placeholder" )
         {
-            setBab({});
+            setBab("");
 
             // This is an invalid value so make sure it is represented in remainingFields
             if ( !remainingFields.includes( event.target ))
@@ -246,87 +318,24 @@ export default function NewClass ( props )
         }
         else if ( event.target.value === "half")
         {
-            setBab ({
-                "1": "0",
-                "2": "1",
-                "3": "1",
-                "4": "2",
-                "5": "2",
-                "6": "3",
-                "7": "3",
-                "8": "4",
-                "9": "4",
-                "10": "5",
-                "11": "5",
-                "12": "6",
-                "13": "6",
-                "14": "7",
-                "15": "7",
-                "16": "8",
-                "17": "8",
-                "18": "9",
-                "19": "9",
-                "20": "10",
-            });
+            setBab ("0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10");
 
             // This is a valid value so remove from remainingFields
-            removeRemainingField(event.target)
+            removeRemainingFields([event.target])
         }
         else if ( event.target.value === "twothirds")
         {
-            setBab ({
-                "1": "0",
-                "2": "1",
-                "3": "2",
-                "4": "3",
-                "5": "3",
-                "6": "4",
-                "7": "5",
-                "8": "6",
-                "9": "6",
-                "10": "7",
-                "11": "8",
-                "12": "9",
-                "13": "9",
-                "14": "10",
-                "15": "11",
-                "16": "12",
-                "17": "12",
-                "18": "13",
-                "19": "14",
-                "20": "15",
-            });
+            setBab ("0,1,2,3,3,4,5,6,6,7,8,9,9,10,11,12,12,13,14,15");
 
             // This is a valid value so remove from remainingFields
-            removeRemainingField(event.target)
+            removeRemainingFields([event.target])
         }
         else if ( event.target.value === "one")
         {
-            setBab({
-                "1": "1",
-                "2": "2",
-                "3": "3",
-                "4": "4",
-                "5": "5",
-                "6": "6",
-                "7": "7",
-                "8": "8",
-                "9": "9",
-                "10": "10",
-                "11": "11",
-                "12": "12",
-                "13": "13",
-                "14": "14",
-                "15": "15",
-                "16": "16",
-                "17": "17",
-                "18": "18",
-                "19": "19",
-                "20": "20",
-            });
+            setBab("1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20");
 
             // This is a valid value so remove from remainingFields
-            removeRemainingField(event.target)
+            removeRemainingFields([event.target])
         }
     }
 
@@ -397,7 +406,7 @@ export default function NewClass ( props )
         if( event.target.value != "placeholder" )
         {
             // This is a valid value so remove from remainingFields
-            removeRemainingField(event.target)
+            removeRemainingFields([event.target])
         }
         else
         {
@@ -416,7 +425,7 @@ export default function NewClass ( props )
         if( event.target.value != "placeholder" )
         {
             // This is a valid value so remove from remainingFields
-            removeRemainingField(event.target)
+            removeRemainingFields([event.target])
         }
         else
         {
@@ -435,7 +444,7 @@ export default function NewClass ( props )
         if( event.target.value != "placeholder" )
         {
             // This is a valid value so remove from remainingFields
-            removeRemainingField(event.target)
+            removeRemainingFields([event.target])
         }
         else
         {
@@ -469,7 +478,7 @@ export default function NewClass ( props )
             setCastingStat(allAttributes.find( element => event.target.value == element.attributeID));
 
             // This is a valid value so remove from remainingFields
-            removeRemainingField(event.target)
+            removeRemainingFields([event.target])
         }
     }
 
@@ -490,7 +499,7 @@ export default function NewClass ( props )
             setCasterType(allCasterTypes.find(type => event.target.value == type.spellcasterTypeID));
 
             // This is a valid value so remove from remainingFields
-            removeRemainingField(event.target)
+            removeRemainingFields([event.target])
         }
     }
 
@@ -511,7 +520,7 @@ export default function NewClass ( props )
             setSpellList(allSpellLists.find(spellList => event.target.value == spellList.spellListID))
 
             // This is a valid value so remove from remainingFields
-            removeRemainingField(event.target)
+            removeRemainingFields([event.target])
         }
     }
 
@@ -532,7 +541,7 @@ export default function NewClass ( props )
             setMagicSource(allMagicSources.find(elem => event.target.value == elem.magicSourceID));
 
             // This is a valid value so remove from remainingFields
-            removeRemainingField(event.target)
+            removeRemainingFields([event.target])
         }
     }
 
@@ -596,16 +605,53 @@ export default function NewClass ( props )
         return true;
     }
 
+    // If spellsPerDay changes, update spellsPerDayString
+    useEffect(() => {
+        if( Object.keys(spellsPerDay).length > 0 )
+        {
+            // Store the temporary spellsPerDay value and build it up
+            let tempSPD = "";
+
+            for ( let level = 1; level <= maxLevel; ++level )
+            {
+                const levelObj = spellsPerDay["table"];
+                
+                for ( let spellLevel = 1; spellLevel <= maxSpellLevel; ++spellLevel )
+                {
+                    let currVal = levelObj[level.toString()][spellLevel.toString()];
+
+                    // If currVal is empty or null, replace it with -
+                    if ( currVal === "" || currVal === null )
+                    {
+                        currVal = "-";
+                    }
+
+                    tempSPD += currVal + ',';
+                }
+
+                // Remove the trailing comma and replace it with a semicolon
+                tempSPD = tempSPD.substring(0, tempSPD.length - 1);
+                tempSPD += ";";
+            }
+
+            // Remove the last semicolon
+            tempSPD = tempSPD.substring(0, tempSPD.length - 1);
+            setSpellsPerDayString(tempSPD);
+        }
+        else
+        {
+            setSpellsPerDayString(null);
+        }
+    }, [spellsPerDay])
+
     function spellsPerDayChanged ( input )
     {
         setSpellsPerDay({...input});
 
-        console.log(validSpells( input["table"] ))
-
         if ( validSpells( input["table"] ) )
         {
             // This is a valid value so remove from remainingFields
-            removeRemainingField(document.getElementById("spellsPerDay"));
+            removeRemainingFields([document.getElementById("spellsPerDay")]);
         }
         else
         {
@@ -617,14 +663,58 @@ export default function NewClass ( props )
         }
     }
 
+    // If spellsKnown changes, update spellsKnownString
+    useEffect(() => {
+        if( Object.keys(spellsKnown).length > 0 )
+        {
+            // Store the temporary spellsKnown value and build it up
+            let tempSK = "";
+
+            tempSK += spellsKnown["category"] + ";";
+
+            if ( spellsKnown["category"] === "perLevel" )
+            {
+                tempSK += spellsKnown.value;
+            }
+            else if ( spellsKnown["category"] === "complex")
+            {
+                for ( let level = 1; level <= maxLevel; ++level )
+                {
+                    for ( let spellLevel = minSpellsKnownLevel; spellLevel <= maxSpellLevel; ++spellLevel )
+                    {
+                        let currVal = spellsKnown["table"][level.toString()][spellLevel.toString()];
+
+                        // If currVal is empty or null, replace it with -
+                        if ( currVal === "" || typeof(currVal) === "undefined" )
+                        {
+                            currVal = "-";
+                        }
+
+                        tempSK += currVal + ',';
+                    }
+
+                    // Remove the trailing comma and replace it with a semicolon
+                    tempSK = tempSK.substring(0, tempSK.length - 1 ) + ";";
+                }
+            
+                // Remove the last semicolon
+                tempSK = tempSK.substring(0, tempSK.length - 1);
+            }
+            
+            setSpellsKnownString(tempSK);
+        }
+        else
+        {
+            setSpellsKnownString(null);
+        }
+    }, [spellsKnown])
+
     function spellsKnownChanged ( input )
     {
-        setSpellsKnown({...input});
-
         if ( validSpells( input["table"] ) )
         {
             // This is a valid value so remove from remainingFields
-            removeRemainingField(document.getElementById("spellsKnown"));
+            removeRemainingFields([document.getElementById("spellsKnown")]);
         }
         else
         {
@@ -634,6 +724,8 @@ export default function NewClass ( props )
                 setRemainingFields( remainingFields.concat( document.getElementById("spellsKnown") ) );
             }
         }
+
+        setSpellsKnown({...input});
     }
 
     function skillsPerLevelChanged ( event )
@@ -650,7 +742,7 @@ export default function NewClass ( props )
         // If it is a valid skill number, remove skillsPerLevel from remaining fields, otherwise ensure that it's there
         if ( parseInt(event.target.value) > 0 )
         {
-            removeRemainingField(event.target)
+            removeRemainingFields([event.target])
         }
         else
         {
@@ -668,7 +760,7 @@ export default function NewClass ( props )
         // If it is a positive number of class skills, remove classSkills from remaining fields, otherwise ensure that it's there
         if ( input.length > 0 )
         {
-            removeRemainingField(document.getElementById("classSkills"))
+            removeRemainingFields([document.getElementById("classSkills")])
         }
         else
         {
@@ -683,16 +775,32 @@ export default function NewClass ( props )
 
     function changeSpellsKnownCategory ( event )
     {
-        setSpellsKnownCategory( event.target.value )
+        let skJSON = {}
+        skJSON.category = event.target.value;
 
-        if ( spellsKnownCategory === "placeholder" )
+        if ( event.target.value === "placeholder" )
         {
-            setSpellsKnown({"category": null})
+            skJSON.category = null;
+        }
+        else if ( event.target.value === "unlimited" )
+        {
+            
+        }
+        else if ( event.target.value === "perLevel" )
+        {
+            skJSON.value = null;
+        }
+        else if ( event.target.value === "complex" )
+        {
+            skJSON = spellsKnownStringToJSON("complex," + generateEmptySpellString());
         }
         else
         {
-            setSpellsKnown({"category": event.target.value});
+            skJSON.category = null;
         }
+
+        setSpellsKnown(skJSON);
+        setSpellsKnownCategory( event.target.value );
     }
 
     function maxSpellLevelChanged ( event )
@@ -719,6 +827,116 @@ export default function NewClass ( props )
         }
     }
 
+    function generateEmptySpellString ()
+    {
+        let emptySpellString = "";
+
+        for ( let classLevel = 1; classLevel <= maxLevel + 1; ++classLevel )
+        {
+            for ( let spellLevel = minSpellsKnownLevel; spellLevel <= maxSpellLevel; ++spellLevel )
+            {
+                emptySpellString += "-,"
+            }
+
+            emptySpellString = emptySpellString.substring(0, emptySpellString.length - 1) + ";";
+        }
+        emptySpellString = emptySpellString.substring(0, emptySpellString.length - 1)
+
+        return emptySpellString;
+    }
+
+    function spellsPerDayStringToJSON ( spdString )
+    {
+        // Break spdString into a JSON, breaking at semicola
+        const spdByClassLevel = spdString.split(";");
+
+        let spdJSON = {};
+
+        for ( let classLevel = 1; classLevel <= maxLevel; ++classLevel )
+        {
+            let innerJSON = {};
+
+
+            // Break classLevel down into individual spell levels, breaking at commata
+            const spdBySpellLevel = spdByClassLevel[classLevel - 1].split(",");
+
+            for ( let spellLevel = 1; spellLevel <= maxSpellLevel; ++spellLevel )
+            {
+                // If spdBySpellLevel[spellLevel] is NaN, empty or null, set innerJSON at that point to be null
+                // Otherwise, set it to be equal to spdBySpellLevel[spellLevel]
+                if ( isNaN(parseInt(spdBySpellLevel[ spellLevel - 1 ])) || spdBySpellLevel[ spellLevel - 1 ] === "" || typeof(spdBySpellLevel[ spellLevel - 1 ]) === null )
+                {
+                    innerJSON[ spellLevel.toString() ] = null;
+                }
+                else
+                {
+                    innerJSON[ spellLevel.toString() ] = spdBySpellLevel[ spellLevel - 1 ];
+                }
+            }
+
+            // Add innerJSON to spdJSON
+            spdJSON[ classLevel.toString() ] = innerJSON;
+        }
+
+        // Return SpellsPerDay in the correct format
+        return({"table": spdJSON});
+    }
+
+    function loadSpellsPerDayString ( spdString )
+    {
+        // Set the spellsPerDayString
+        setSpellsPerDayString( spdString );
+
+        // Set SpellsPerDay in the correct format
+        const spellsPerDayJSON = spellsPerDayStringToJSON( spdString );
+        setSpellsPerDay( spellsPerDayJSON );
+    }
+
+    function spellsKnownStringToJSON ( skString )
+    {
+        // Break spdString into a JSON, breaking at semicola
+        const skByClassLevel = skString.split(";");
+        
+        let skJSON = {};
+        const skCategory = skByClassLevel[0];
+
+        for ( let classLevel = 1; classLevel <= maxLevel; ++classLevel )
+        {
+            let innerJSON = {};
+
+            // Break classLevel down into individual spell levels, breaking at commata
+            const skBySpellLevel = skByClassLevel[classLevel].split(",");
+
+            for ( let spellLevel = minSpellsKnownLevel; spellLevel <= maxSpellLevel; ++spellLevel )
+            {
+                // If spdBySpellLevel[spellLevel - 1] is NaN, empty or null, set innerJSON at that point to be null
+                // Otherwise, set it to be equal to spdBySpellLevel[spellLevel]
+                if ( isNaN(parseInt(skBySpellLevel[ spellLevel - minSpellsKnownLevel ])) || skBySpellLevel[ spellLevel - minSpellsKnownLevel ] === "" || typeof(skBySpellLevel[ spellLevel - minSpellsKnownLevel ]) === null )
+                {
+                    innerJSON[ spellLevel.toString() ] = null;
+                }
+                else
+                {
+                    innerJSON[ spellLevel.toString() ] = skBySpellLevel[ spellLevel - minSpellsKnownLevel ];
+                }
+            }
+
+            // Add innerJSON to spdJSON
+            skJSON[ classLevel.toString() ] = innerJSON;
+        }
+
+        // Return the JSON in the correct format
+        return({"category": skCategory, "table": skJSON});
+    }
+
+    function loadSpellsKnownString ( skString )
+    {
+        setSpellsKnownString( skString );
+        const skJSON = spellsKnownStringToJSON(skString);
+        setSpellsKnown( skJSON );
+        setSpellsKnownCategory ( skJSON.category );
+    }
+
     // If the class is based off another class, populate options based off that base class, otherwise clear it
     useEffect(() => {
         if( Object.keys(baseClass).length > 0 )
@@ -731,21 +949,21 @@ export default function NewClass ( props )
             setWill( baseClass.will );
             setBuffs( baseClass.buffs );
 
+
             // Check to see if one of the spellcasting stats is null to determine whether this is a spellcasting class
-            if ( typeof(baseClass.castingStat) === "undefined" )
+            if ( baseClass.castingAbility === null )
             {
                 setIsSpellcaster( false );
             }
             else
             {
                 setIsSpellcaster( true );
-                setCastingStat( baseClass.castingStat );
+                setCastingStat( baseClass.castingAbility );
                 setCasterType( baseClass.casterType );
                 setSpellList( baseClass.spellList );
                 setMagicSource( baseClass.magicSource );
-                setSpellsPerDay( baseClass.spellsPerDay );
-                setSpellsKnownCategory ( baseClass.spellsKnown["category"] )
-                setSpellsKnown( baseClass.spellsKnown );
+                loadSpellsPerDayString( baseClass.spellsPerDay );
+                loadSpellsKnownString( baseClass.spellsKnown );
             }
             setSkillsPerLevel( baseClass.skillRanks );
             setClassSkills( baseClass.classSkills );
@@ -754,18 +972,18 @@ export default function NewClass ( props )
         {
             setIsPrestige( false );
             setHitDie( 0 );
-            setBab( {} );
-            setFortitude( {} );
-            setReflex( {} );
-            setWill( {} );
+            setBab( "" );
+            setFortitude( "" );
+            setReflex( "" );
+            setWill( "" );
             setBuffs( [] );
             setIsSpellcaster( false );
             setCastingStat( {} );
             setCasterType( {} );
             setSpellList( {} );
             setMagicSource( {} );
-            setSpellsPerDay( {} );
-            setSpellsKnown( {} );
+            loadSpellsPerDayString( generateEmptySpellString() );
+            loadSpellsKnownString( generateEmptySpellString() );
             setSkillsPerLevel( 0 );
             setClassSkills( [] );
         }
@@ -775,22 +993,22 @@ export default function NewClass ( props )
 
     }, [baseClass])
 
-    // Convert a BAB JSON into a description
-    function babJSONToDesc ( input )
+    // Convert a BAB CSV into a description
+    function babCSVToDesc ( input )
     {
-        if ( typeof(input) !== "object" )
+        if ( typeof(input) !== "string" )
         {
             return "placeholder";
         }
-        else if ( input["3"] == 3 )
+        else if ( input[4] == 3 )
         {
             return "one";
         }
-        else if ( input["3"] == 2 )
+        else if ( input[4] == 2 )
         {
             return "twothirds";
         }
-        else if ( input["3"] == 1 )
+        else if ( input[4] == 1 )
         {
             return "half";
         }
@@ -802,21 +1020,21 @@ export default function NewClass ( props )
     }
 
     // Convert a save JSON into a description
-    function saveJSONToDesc ( input )
+    function saveCSVToDesc ( input )
     {
-        if ( typeof(input) !== "object" )
+        if ( typeof(input) !== "string" )
         {
             return "placeholder";
         }
-        else if ( input.length === 0)
+        else if ( input.length === 0 )
         {
             return "placeholder";
         }
-        else if ( input["1"] == 2 )
+        else if ( input[0] == 2 )
         {
             return "good";
         }
-        else if ( input["1"] == 0 )
+        else if ( input[0] == 0 )
         {
             return "poor";
         }
@@ -833,14 +1051,13 @@ export default function NewClass ( props )
         if( Object.keys(baseClass).length > 0 )
         {
             document.getElementById("hitDie").value = baseClass.hitDie;
-            document.getElementById("babRate").value = babJSONToDesc(JSON.parse(baseClass.bab));
-            document.getElementById("fortRate").value = saveJSONToDesc(JSON.parse(baseClass.fortitude));
-            document.getElementById("refRate").value = saveJSONToDesc(JSON.parse(baseClass.reflex));
-            document.getElementById("willRate").value = saveJSONToDesc(JSON.parse(baseClass.will));
-            // document.getElementById().value = 
-
+            document.getElementById("babRate").value = babCSVToDesc(baseClass.bab);
+            document.getElementById("fortRate").value = saveCSVToDesc(baseClass.fortitude);
+            document.getElementById("refRate").value = saveCSVToDesc(baseClass.reflex);
+            document.getElementById("willRate").value = saveCSVToDesc(baseClass.will);
+            
             // Check to see if one of the spellcasting stats is null to determine whether this is a spellcasting class
-            if ( typeof(baseClass.castingStat) === "undefined" )
+            if ( baseClass.castingAbility === null )
             {
                 document.getElementById("isSpellcaster").value = false;
                 document.getElementById("isSpellcaster").checked = false;
@@ -851,23 +1068,12 @@ export default function NewClass ( props )
                 document.getElementById("isSpellcaster").checked = true;
             }
 
-            // Only check the spellcasting stats if the class is a spellcaster
-            if ( document.getElementById("isSpellcaster").value === true )
-            {
-                document.getElementById("castingStat").value = baseClass.castingAbility.attributeName;
-                document.getElementById("casterType").value = baseClass.casterType.spellcasterTypeName;
-                document.getElementById("spellList").value = baseClass.spellList.spellListName;
-                document.getElementById("magicSource").value = baseClass.magicSource.magicSourceName;
-                document.getElementById("spellsPerDay").value = baseClass.spellsPerDay;
 
-                // Parse spells known
-                document.getElementById("spellsKnownCategory").value = baseClass.spellsKnown["category"];
-
-
-                
-            }
             document.getElementById("skillRanks").value = baseClass.skillRanks;
             // document.getElementById("").value = 
+
+            // The base class should have all fields except name already validated
+            removeRemainingFields(remainingFields.filter( field => field.id !== "name" ));
         }
         else
         {
@@ -890,6 +1096,11 @@ export default function NewClass ( props )
         }
     }
 
+    function updateSelectedBuffs ( buffArray )
+    {
+        setBuffs(buffArray);
+    }
+
     // Change the max class level based on whether this is a prestige class
     useEffect(() => {
         if ( isPrestige )
@@ -905,7 +1116,9 @@ export default function NewClass ( props )
     return (
         <table className="classTable">
             <thead >
-                <tr><td className="classTableTitle" colSpan="100%">New Class</td></tr>
+                <tr>
+                    <td className="classTableTitle" colSpan="3">New Class</td>
+                </tr>
             </thead>
             <tbody>
                 <tr>
@@ -1004,7 +1217,7 @@ export default function NewClass ( props )
                                 </tr>
                                 <tr>
                                     <td colSpan={6}>
-                                        <BuffSelector />
+                                        <BuffSelector update={updateSelectedBuffs}/>
                                     </td>
                                 </tr>
                             </tbody>
@@ -1113,8 +1326,8 @@ export default function NewClass ( props )
                                             </thead>
                                             <tbody>
                                                 <tr>
-                                                    <td><SpellsPerDayTable id="spellsPerDay" minSpellLevel="1" maxSpellLevel={maxSpellLevel} maxLevel={maxLevel} value="{}" change={spellsPerDayChanged}/></td>
-                                                    <td><SpellKnownTable id="spellsKnown" minSpellLevel={minSpellsKnownLevel} maxSpellLevel={maxSpellLevel} maxLevel={maxLevel} spellsKnown={spellsKnown} change={spellsKnownChanged} /> </td>
+                                                    <td><SpellsPerDayTable id="spellsPerDay" minSpellLevel="1" maxSpellLevel={maxSpellLevel} maxLevel={maxLevel} spellsPerDay={spellsPerDay} change={spellsPerDayChanged}/></td>
+                                                    <td><SpellKnownTable id="spellsKnown" minSpellLevel={minSpellsKnownLevel} maxSpellLevel={maxSpellLevel} maxLevel={maxLevel} spellsKnown={spellsKnown} setVal={setSpellsKnownVal} change={spellsKnownChanged} /> </td>
                                                 </tr>
                                             </tbody>
                                         </table>

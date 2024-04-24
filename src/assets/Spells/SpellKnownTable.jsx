@@ -6,20 +6,34 @@ export default function SpellKnownTable ( props )
     const [category, setCategory] = useState("");
     const [categoryJSON, setCategoryJSON] = useState({});
     const [spellsKnownJSON, setSpellsKnownJSON] = useState({});
+    const [initialValue, setInitialValue] = useState({});
+    const [hasUserOperated, setHasUserOperated] = useState(false);
 
+    useEffect (() => {
+        setInitialValue(props.spellsKnown);
+    }, [props.spellsKnown])
 
     // If the category changes, keep track of it
     useEffect (() => {
-        // Put this in an if statement to stop infinite loops
-        if ( category != props.spellsKnown["category"])
+        // Make sure that props.spellsKnown is properly formed
+        if ( initialValue.category !== undefined )
         {
-            setCategory(props.spellsKnown["category"]);
-            
+            // Put this in an if statement to stop infinite loops
+            if ( category != initialValue["category"])
+            {
+                setCategory(initialValue["category"]);
+                
+            }
+
+            if ( initialValue != spellsKnownJSON )
+            {
+                setSpellsKnownJSON(props.spellsKnown);
+            }
         }
-
         
-    }, [props.spellsKnown])
+    }, [initialValue])
 
+    // Update the categoryJSON whenever category is updated
     useEffect (() => {
         // If spells known are unlimited, set the spells known JSON to just be the category
         if ( category === "unlimited" )
@@ -36,28 +50,86 @@ export default function SpellKnownTable ( props )
         }
     }, [category])
 
+    // Create an empty table: element for the JSON
+    function emptyTableJSON ()
+    {
+        let tempJSON = {};
+
+        for ( let level = 1; level <= props.maxLevel; ++level)
+        {
+            let innerJSON = {};
+            for ( let spellLevel = props.minSpellLevel; spellLevel <= props.maxSpellLevel; ++ spellLevel )
+            {
+                innerJSON[spellLevel.toString()] = null;
+            }
+            
+            tempJSON[level.toString()] = innerJSON;
+        }
+
+        return tempJSON;
+    }
 
     // If categoryJSON changes, clear the spellsKnownJSON and prime it with the category
     useEffect (() => {
-        setSpellsKnownJSON({...categoryJSON})
+        //setSpellsKnownJSON({...categoryJSON, "table": emptyTableJSON()})
+
+        let tempJSON = {};
+        tempJSON.category = category;
+
+        if ( category === "placeholder" )
+        {
+            tempJSON.category = null;
+        }
+        else if ( category === "unlimited" )
+        {
+            
+        }
+        else if ( category === "perLevel" )
+        {
+            tempJSON.value = null;
+        }
+        else if ( category === "complex" )
+        {
+            tempJSON.table = emptyTableJSON();
+        }
+        else
+        {
+            tempJSON.category = null;
+        }
+        
+        setSpellsKnownJSON(tempJSON)
+
+        // Once we have a category, ask for an initial value
+        if ( category === "perLevel" || category === "complex" )
+        {
+            props.setVal();
+        }
     }, [categoryJSON])
 
     // When spellsKnownJSON changes, propagate it
     useEffect (() => {
-        if ( JSON.stringify(spellsKnownJSON) != JSON.stringify(props.spellsKnown) )
+        // Ignore if this is the first time the component is loaded or if it's the same as props.spellsKnown
+        if ( hasUserOperated === true && spellsKnownJSON !== props.spellsKnown)
         {
-            props.change(spellsKnownJSON);
+            if ( JSON.stringify(spellsKnownJSON) != JSON.stringify(props.spellsKnown) )
+            {
+                props.change(spellsKnownJSON);
+            }
         }
     }, [spellsKnownJSON])
 
     function perLevelChanged ( event )
     {
-        setSpellsKnownJSON({...categoryJSON, "total": event.target.value});
+        setSpellsKnownJSON({...categoryJSON, "value": event.target.value});
+
+        setHasUserOperated(true);
     }
 
     function complexChanged ( input )
     {
-        setSpellsKnownJSON({...categoryJSON, "table": {...input}})
+        setSpellsKnownJSON({...categoryJSON, ...input});
+
+        setHasUserOperated(true);
     }
 
     return (
@@ -80,7 +152,7 @@ export default function SpellKnownTable ( props )
         }
         { 
             category === "complex" &&
-            <SpellTable id={props.id} minSpellLevel={props.minSpellLevel} maxSpellLevel={props.maxSpellLevel} maxLevel={props.maxLevel} change={complexChanged}/>
+            <SpellTable id={props.id} minSpellLevel={props.minSpellLevel} maxSpellLevel={props.maxSpellLevel} maxLevel={props.maxLevel} value={props.spellsKnown} change={complexChanged}/>
         }
         </>
     )

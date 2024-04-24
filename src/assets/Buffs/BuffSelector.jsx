@@ -2,11 +2,13 @@ import { useEffect, useState } from "react"
 import BuffSelectorItem from "./BuffSelectorItem";
 import SelectedBuffItem from "./SelectedBuffItem";
 
-export default function BuffSelector()
+export default function BuffSelector( props )
 {
     const [allBuffs, setAllBuffs] = useState([]);
     const [filteredBuffs, setFilteredBuffs] = useState([]);
     const [selectedBuffs, setSelectedBuffs] = useState([]);
+
+    const [selectedBuffJSONArray, setSelectedBuffJSONArray] = useState([]);
 
     useEffect(() => {
         const url = "http://localhost:8080/buff/allBuffs"
@@ -33,9 +35,28 @@ export default function BuffSelector()
     function filterBuffs( event )
     {
         setFilteredBuffs( allBuffs.filter((buff) =>
-        buff.buffName.toLowerCase().includes(event.target.value.toLowerCase())
-    ));
+            buff.buffName.toLowerCase().includes(event.target.value.toLowerCase())
+        ));
     }
+
+    function updateJSON ( buffJSON )
+    {
+        // If buffJSON is not in the array, ddd it
+        // Otherwise remove it
+        if ( !selectedBuffJSONArray.includes(buffJSON) ) 
+        {
+            setSelectedBuffJSONArray( selectedBuffJSONArray.concat(buffJSON) );
+        }
+        else
+        {
+            setSelectedBuffJSONArray( selectedBuffJSONArray.filter(buff => buff != buffJSON) );
+        }
+    }
+
+    // When selectedBuffJSONArray updates, propagate it
+    useEffect(() => {
+        props.update(selectedBuffJSONArray);
+    }, [selectedBuffJSONArray])
 
     return (
         <table>
@@ -58,7 +79,7 @@ export default function BuffSelector()
                             </thead>
                             <tbody>
                                 {selectedBuffs.map((buff, index) => (
-                                    <SelectedBuffItem buff={buff} key={buff.buffID + "" + index} removeBuff={removeBuff} index={index}/>
+                                    <SelectedBuffItem buff={buff} key={buff.buffID + "" + index} removeBuff={removeBuff} index={index} update={updateJSON}/>
                                 ))}
                             </tbody>
                         </table>

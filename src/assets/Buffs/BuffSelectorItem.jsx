@@ -24,8 +24,8 @@ export default function BuffSelectorItem ( props )
     }
 
     return (
-        <tr key={buff.buffID} className={"buffItem "} onMouseEnter={hoverStart} onMouseLeave={hoverEnd} onClick={selectBuff}>
-            <td key={buff.buffID + "cell"}>
+        <tr key={buff.buffID + "" + buff.Level} className={"buffItem "} onMouseEnter={hoverStart} onMouseLeave={hoverEnd} onClick={selectBuff}>
+            <td key={buff.buffID + "" + buff.Level + "cell"}>
                 {buff.buffName}
             </td>
         </tr>
