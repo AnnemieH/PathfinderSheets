@@ -29,10 +29,10 @@ export default function NewClass ( props )
     const [skillsPerLevel, setSkillsPerLevel] = useState(0);
     const [classSkills, setClassSkills] = useState([]);
 
-    const [spellsKnownCategory, setSpellsKnownCategory] = useState("");
     const [maxLevel, setMaxLevel] = useState(20);
     const [minSpellsKnownLevel, setMinSpellsKnownLevel] = useState(0);
     const [maxSpellLevel, setMaxSpellLevel] = useState(9);
+    const [initSkills, setInitSkills] = useState([]);
 
     const [remainingFields, setRemainingFields] = useState([]);
 
@@ -86,8 +86,6 @@ export default function NewClass ( props )
 
     // Whenever postJSON changes, propagate it
     useEffect(() => {
-        console.log(postJSON)
-
         props.jsonUpdate(postJSON, "http://localhost:8080/class/allClasses");
     }, [postJSON])
 
@@ -800,7 +798,6 @@ export default function NewClass ( props )
         }
 
         setSpellsKnown(skJSON);
-        setSpellsKnownCategory( event.target.value );
     }
 
     function maxSpellLevelChanged ( event )
@@ -934,7 +931,6 @@ export default function NewClass ( props )
         setSpellsKnownString( skString );
         const skJSON = spellsKnownStringToJSON(skString);
         setSpellsKnown( skJSON );
-        setSpellsKnownCategory ( skJSON.category );
     }
 
     // If the class is based off another class, populate options based off that base class, otherwise clear it
@@ -967,6 +963,7 @@ export default function NewClass ( props )
             }
             setSkillsPerLevel( baseClass.skillRanks );
             setClassSkills( baseClass.classSkills );
+            console.log(baseClass.classSkills)
         }
         else
         {
@@ -1070,7 +1067,7 @@ export default function NewClass ( props )
 
 
             document.getElementById("skillRanks").value = baseClass.skillRanks;
-            // document.getElementById("").value = 
+            setInitSkills(baseClass.classSkills);
 
             // The base class should have all fields except name already validated
             removeRemainingFields(remainingFields.filter( field => field.id !== "name" ));
@@ -1092,7 +1089,7 @@ export default function NewClass ( props )
             // document.getElementById("").value = 
             // document.getElementById("").value = 
             document.getElementById("skillRanks").value = "";
-            // document.getElementById("").value = 
+            setInitSkills([]);
         }
     }
 
@@ -1352,7 +1349,7 @@ export default function NewClass ( props )
                                 </tr>
                                 <tr>
                                     <td colSpan="2">
-                                        <SkillSelector id="classSkills" classSkillsSelected={classSkillsSelected}/>
+                                        <SkillSelector id="classSkills" classSkillsSelected={classSkillsSelected} init={initSkills}/>
                                     </td>
                                 </tr>
                             </tbody>
