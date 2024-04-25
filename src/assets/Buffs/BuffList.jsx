@@ -5,6 +5,11 @@ export default function BuffList ( props )
     const [displayBuffs, setDisplayBuffs] = useState([]);
     const [finalBuffs, setFinalBuffs] = useState([]);
 
+    // Proopagate finalBuffs whenever it changes
+    useEffect ( () => {
+        props.update(finalBuffs)
+    }, [finalBuffs])
+
     // If props.displayBuffs changes, change the internal state to match it or to be an empty array.
     useEffect(() =>{
         if (Array.isArray(props.inheritedBuffs))

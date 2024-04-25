@@ -15,8 +15,8 @@ export default function SkillSelector( props )
 
             fetch(url)
             .then(res => res.json())
-            .then(data => setAllSkills(data.sort((a, b) => {
-                if (a.skillID < b.skillID)
+            .then(data => setAllSkills(reformatSkills(data).sort((a, b) => {
+                if (a.id.skillID < b.id.skillID)
                 {
                     return -1;
                 }
@@ -24,13 +24,33 @@ export default function SkillSelector( props )
         }
     }, [])
 
+    // Once we have all skills, reformat them to look like the objects we expect
+    function reformatSkills ( skillsInput )
+    {
+        let skills = [...skillsInput]
+
+        skills.forEach( skill => {
+            let newSkill = {};
+            newSkill.skill = {...skill};
+            newSkill.id = {};
+            newSkill.id.skillID = skill.skillID;
+            Object.assign(skill, newSkill)
+            delete skill.attribute;
+            delete skill.skillID;
+            delete skill.skillName;
+            delete skill.trainedOnly;
+        });
+
+        return skills;
+    }
+
     useEffect ( () => {
         // Exchange the raw objects for Officiäl Skills(tm) which will be recognised by .includes
         const tempArray = [...props.init];
 
         for ( let i = 0; i < props.init.length; ++i )
         {
-            tempArray[i] = allSkills.find( skill => skill.skillID == tempArray[i].id.skillID );
+            tempArray[i] = allSkills.find( skill => skill.id.skillID == tempArray[i].id.skillID );
         }
         
         setInitialValue(tempArray)
@@ -87,7 +107,7 @@ export default function SkillSelector( props )
         // Exchange the raw objects for Officiäl Skills(tm) which will be recognised by .includes
         for ( let i = 0; i < filteredSkills.length; ++i )
         {
-            filteredSkills[i] = allSkills.find( skill => skill.skillID == filteredSkills[i].skillID );
+            filteredSkills[i] = allSkills.find( skill => skill.id.skillID == filteredSkills[i].id.skillID );
         }
 
         setSelectedSkills(filteredSkills);
@@ -97,9 +117,9 @@ export default function SkillSelector( props )
         <table id={props.id}>
             <tbody>
                 {allSkills.map(skill => (
-                    <tr key={skill.skillID + "Row"} className={"ClassSkill " + isSelected(skill)}>
-                        <td key={skill.skillID + "Cell"} value={skill.skillID} className="skillSelectorItem" onClick={() => selectSkills([skill])}>
-                            {skill.skillName}
+                    <tr key={skill.id.skillID + "Row"} className={"ClassSkill " + isSelected(skill)}>
+                        <td key={skill.id.skillID + "Cell"} value={skill.id.skillID} className="skillSelectorItem" onClick={() => selectSkills([skill])}>
+                            {skill.skill.skillName}
                         </td>
                     </tr>
                 ))}

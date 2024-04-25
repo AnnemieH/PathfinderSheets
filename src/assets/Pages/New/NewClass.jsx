@@ -16,7 +16,8 @@ export default function NewClass ( props )
     const [fortitude, setFortitude] = useState("");
     const [reflex, setReflex] = useState("");
     const [will, setWill] = useState("");
-    const [inheritedBuffs, setInheritedBuffs] = useState([]);
+    const [inheritedBuffs, setInheritedBuffs] = useState([]);                   // All buffs inherited from the base class
+    const [filteredInheritedBuffs, setFilteredInheritedBuffs] = useState([]);   // Only the buffs we wish to keep from the inherited class
     const [buffs, setBuffs] = useState([]);
     const [isSpellcaster, setIsSpellcaster] = useState(false);
     const [castingStat, setCastingStat] = useState({})
@@ -47,7 +48,7 @@ export default function NewClass ( props )
     // Assemble postJSON whenever any constituënt changes
     useEffect(() => {
         setPostJSON(JSON.stringify(assemblePostJSON()));
-    }, [name, baseClass, isPrestige, buffs, inheritedBuffs, hitDie, bab, fortitude, reflex, will, skillsPerLevel, classSkills, casterType, castingStat, magicSource, spellList, spellsPerDay, spellsKnown])
+    }, [name, baseClass, isPrestige, buffs, inheritedBuffs, filteredInheritedBuffs, hitDie, bab, fortitude, reflex, will, skillsPerLevel, classSkills, casterType, castingStat, magicSource, spellList, spellsPerDay, spellsKnown])
     
     function assemblePostJSON ()
     {
@@ -62,7 +63,7 @@ export default function NewClass ( props )
         }
 
         tempJSON.isPrestige = isPrestige;
-        tempJSON.buffs = buffs.concat(inheritedBuffs);
+        tempJSON.buffs = filteredInheritedBuffs.concat(buffs);
         tempJSON.hitDie = hitDie;
         tempJSON.bab = bab;
         tempJSON.fortitude = fortitude;
@@ -80,6 +81,8 @@ export default function NewClass ( props )
             tempJSON.spellsPerDay = spellsPerDayString;
             tempJSON.spellsKnown = spellsKnownString;
         }
+
+        console.log(tempJSON)
 
         return tempJSON;
 
@@ -860,11 +863,11 @@ export default function NewClass ( props )
 
             for ( let spellLevel = 1; spellLevel <= maxSpellLevel; ++spellLevel )
             {
-                // If spdBySpellLevel[spellLevel] is NaN, empty or null, set innerJSON at that point to be null
+                // If spdBySpellLevel[spellLevel] is NaN, empty or null, set innerJSON at that point to be -
                 // Otherwise, set it to be equal to spdBySpellLevel[spellLevel]
                 if ( isNaN(parseInt(spdBySpellLevel[ spellLevel - 1 ])) || spdBySpellLevel[ spellLevel - 1 ] === "" || typeof(spdBySpellLevel[ spellLevel - 1 ]) === null )
                 {
-                    innerJSON[ spellLevel.toString() ] = null;
+                    innerJSON[ spellLevel.toString() ] = "-";
                 }
                 else
                 {
@@ -911,7 +914,7 @@ export default function NewClass ( props )
                 // Otherwise, set it to be equal to spdBySpellLevel[spellLevel]
                 if ( isNaN(parseInt(skBySpellLevel[ spellLevel - minSpellsKnownLevel ])) || skBySpellLevel[ spellLevel - minSpellsKnownLevel ] === "" || typeof(skBySpellLevel[ spellLevel - minSpellsKnownLevel ]) === null )
                 {
-                    innerJSON[ spellLevel.toString() ] = null;
+                    innerJSON[ spellLevel.toString() ] = "-";
                 }
                 else
                 {
@@ -956,7 +959,7 @@ export default function NewClass ( props )
             {
                 setIsSpellcaster( true );
                 setCastingStat( baseClass.castingAbility );
-                setCasterType( baseClass.casterType );
+                setCasterType( baseClass.spellcasterType );
                 setSpellList( baseClass.spellList );
                 setMagicSource( baseClass.magicSource );
                 loadSpellsPerDayString( baseClass.spellsPerDay );
@@ -1121,6 +1124,11 @@ export default function NewClass ( props )
         setBuffs( buffArray );
     }
 
+    function alterInheritedBuffs ( buffArray )
+    {
+        setFilteredInheritedBuffs( buffArray );
+    }  
+
     // Change the max class level based on whether this is a prestige class
     useEffect(() => {
         if ( isPrestige )
@@ -1232,7 +1240,7 @@ export default function NewClass ( props )
                                 </tr>
                                 <tr>
                                     <td colSpan={6}>
-                                        <BuffList inheritedBuffs={inheritedBuffs} />
+                                        <BuffList inheritedBuffs={inheritedBuffs} update={alterInheritedBuffs} />
                                     </td>
                                 </tr>
                                 <tr>
