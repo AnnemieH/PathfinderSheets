@@ -36,7 +36,9 @@ export default function SkillSelector( props )
         setInitialValue(tempArray)
     }, [props.init])
 
+    // Update selectedSkills when given an initial value
     useEffect ( () => {
+        // Check if initialValue differs by value from selectedSkills and only update selectedSkills if this is the case
         if ( JSON.stringify(initialValue) !== JSON.stringify(selectedSkills)  )
         {
             // We wish to select skills in initialValue that are not already selected and deselect selectedSkills that are not in initialValue

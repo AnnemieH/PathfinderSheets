@@ -27,7 +27,7 @@ export default function BaseClassSelector ( props )
 
             allClasses.map((c) => 
             {
-                if(!c.hasOwnProperty("archetypeID"))
+                if(c.archetype === undefined)
                 {
                     base.push(c);
                 }

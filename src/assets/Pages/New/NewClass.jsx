@@ -16,6 +16,7 @@ export default function NewClass ( props )
     const [fortitude, setFortitude] = useState("");
     const [reflex, setReflex] = useState("");
     const [will, setWill] = useState("");
+    const [inheritedBuffs, setInheritedBuffs] = useState([]);
     const [buffs, setBuffs] = useState([]);
     const [isSpellcaster, setIsSpellcaster] = useState(false);
     const [castingStat, setCastingStat] = useState({})
@@ -45,8 +46,8 @@ export default function NewClass ( props )
 
     // Assemble postJSON whenever any constituënt changes
     useEffect(() => {
-        setPostJSON(assemblePostJSON);
-    }, [name, baseClass, isPrestige, buffs, hitDie, bab, fortitude, reflex, will, skillsPerLevel, classSkills, casterType, castingStat, magicSource, spellList, spellsPerDay, spellsKnown])
+        setPostJSON(JSON.stringify(assemblePostJSON()));
+    }, [name, baseClass, isPrestige, buffs, inheritedBuffs, hitDie, bab, fortitude, reflex, will, skillsPerLevel, classSkills, casterType, castingStat, magicSource, spellList, spellsPerDay, spellsKnown])
     
     function assemblePostJSON ()
     {
@@ -61,7 +62,7 @@ export default function NewClass ( props )
         }
 
         tempJSON.isPrestige = isPrestige;
-        tempJSON.buffs = buffs;
+        tempJSON.buffs = buffs.concat(inheritedBuffs);
         tempJSON.hitDie = hitDie;
         tempJSON.bab = bab;
         tempJSON.fortitude = fortitude;
@@ -943,7 +944,7 @@ export default function NewClass ( props )
             setFortitude( baseClass.fortitude );
             setReflex( baseClass.reflex );
             setWill( baseClass.will );
-            setBuffs( baseClass.buffs );
+            setInheritedBuffs( stripClassIDFromBuffs(baseClass.buffs) );
 
 
             // Check to see if one of the spellcasting stats is null to determine whether this is a spellcasting class
@@ -962,8 +963,7 @@ export default function NewClass ( props )
                 loadSpellsKnownString( baseClass.spellsKnown );
             }
             setSkillsPerLevel( baseClass.skillRanks );
-            setClassSkills( baseClass.classSkills );
-            console.log(baseClass.classSkills)
+            setClassSkills( stripClassIDFromSkills(baseClass.classSkills) );
         }
         else
         {
@@ -989,6 +989,29 @@ export default function NewClass ( props )
         updateBaseClass();
 
     }, [baseClass])
+
+    // Strip out the previous classID from inherited buffs
+    function stripClassIDFromBuffs ( buffArray )
+    {
+        let strippedBuffs = [...buffArray];
+        strippedBuffs.forEach( buff => {
+            delete buff.id.classID;
+        });
+
+        return strippedBuffs;
+    }
+
+    // Strip out the previous classID from inherited skills
+    function stripClassIDFromSkills ( skillArray )
+    {
+        let strippedSkills = [...skillArray];
+        strippedSkills.forEach( skill => {
+            delete skill.id.classID;
+        });
+
+        return strippedSkills;
+    }
+
 
     // Convert a BAB CSV into a description
     function babCSVToDesc ( input )
@@ -1095,7 +1118,7 @@ export default function NewClass ( props )
 
     function updateSelectedBuffs ( buffArray )
     {
-        setBuffs(buffArray);
+        setBuffs( buffArray );
     }
 
     // Change the max class level based on whether this is a prestige class
@@ -1209,7 +1232,7 @@ export default function NewClass ( props )
                                 </tr>
                                 <tr>
                                     <td colSpan={6}>
-                                        <BuffList inheritedBuffs={buffs} />
+                                        <BuffList inheritedBuffs={inheritedBuffs} />
                                     </td>
                                 </tr>
                                 <tr>
