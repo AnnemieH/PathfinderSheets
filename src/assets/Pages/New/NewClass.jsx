@@ -48,7 +48,7 @@ export default function NewClass ( props )
     // Assemble postJSON whenever any constituënt changes
     useEffect(() => {
         setPostJSON(JSON.stringify(assemblePostJSON()));
-    }, [name, baseClass, isPrestige, buffs, inheritedBuffs, filteredInheritedBuffs, hitDie, bab, fortitude, reflex, will, skillsPerLevel, classSkills, casterType, castingStat, magicSource, spellList, spellsPerDay, spellsKnown])
+    }, [name, baseClass, isPrestige, maxLevel, buffs, inheritedBuffs, filteredInheritedBuffs, hitDie, bab, fortitude, reflex, will, skillsPerLevel, classSkills, casterType, castingStat, magicSource, spellList, spellsPerDay, spellsKnown])
     
     function assemblePostJSON ()
     {
@@ -65,10 +65,11 @@ export default function NewClass ( props )
         tempJSON.isPrestige = isPrestige;
         tempJSON.buffs = filteredInheritedBuffs.concat(buffs);
         tempJSON.hitDie = hitDie;
-        tempJSON.bab = bab;
-        tempJSON.fortitude = fortitude;
-        tempJSON.reflex = reflex;
-        tempJSON.will = will;
+        // Make sure to truncate certain values based on maxLevel
+        tempJSON.bab = csvTruncate(bab, 0, maxLevel - 1);
+        tempJSON.fortitude = csvTruncate(fortitude, 0, maxLevel - 1);
+        tempJSON.reflex = csvTruncate(reflex, 0, maxLevel - 1);
+        tempJSON.will = csvTruncate(will, 0, maxLevel - 1);
         tempJSON.skillRanks = skillsPerLevel;
         tempJSON.classSkills = classSkills;
 
@@ -304,14 +305,34 @@ export default function NewClass ( props )
         }
     }
 
+    // Take a csv, a start index and an end index and return a csv containing only those elements
+    function csvTruncate ( csv, start, end )
+    {
+        let csvArr = csv.split(',');
+
+        let output = "";
+
+        for ( let i = start; i <= end; ++i )
+        {
+            // Check that csvArr[i] exists before adding it to output
+            if ( csvArr[i] !== undefined )
+            {
+                output += csvArr[i] + ",";
+            }
+        }
+
+        // Remove the final comma
+        output = output.substring(0, output.length - 1);
+        return output;
+    }
+
     function babSelected ( event )
     {
         // If BAB is unselected, clear CSV
         // Otherwise create a CSV corresponding to the three BAB progressions
+        let newBAB = ""
         if ( event.target.value === "placeholder" )
         {
-            setBab("");
-
             // This is an invalid value so make sure it is represented in remainingFields
             if ( !remainingFields.includes( event.target ))
             {
@@ -320,25 +341,27 @@ export default function NewClass ( props )
         }
         else if ( event.target.value === "half")
         {
-            setBab ("0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10");
+            newBAB = "0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10";
 
             // This is a valid value so remove from remainingFields
             removeRemainingFields([event.target])
         }
         else if ( event.target.value === "twothirds")
         {
-            setBab ("0,1,2,3,3,4,5,6,6,7,8,9,9,10,11,12,12,13,14,15");
+            newBAB = "0,1,2,3,3,4,5,6,6,7,8,9,9,10,11,12,12,13,14,15";
 
             // This is a valid value so remove from remainingFields
             removeRemainingFields([event.target])
         }
         else if ( event.target.value === "one")
         {
-            setBab("1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20");
+            newBAB = "1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20";
 
             // This is a valid value so remove from remainingFields
             removeRemainingFields([event.target])
         }
+
+        setBab(newBAB);
     }
 
     // Convert a rate into a JSON for save progressions
