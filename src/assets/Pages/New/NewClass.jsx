@@ -67,9 +67,9 @@ export default function NewClass ( props )
         tempJSON.hitDie = hitDie;
         // Make sure to truncate certain values based on maxLevel
         tempJSON.bab = csvTruncate(bab, 0, maxLevel - 1);
-        tempJSON.fortitude = csvTruncate(fortitude, 0, maxLevel - 1);
-        tempJSON.reflex = csvTruncate(reflex, 0, maxLevel - 1);
-        tempJSON.will = csvTruncate(will, 0, maxLevel - 1);
+        tempJSON.fortitude = csvTruncate(saveProgression(fortitude), 0, maxLevel - 1);
+        tempJSON.reflex = csvTruncate(saveProgression(reflex), 0, maxLevel - 1);
+        tempJSON.will = csvTruncate(saveProgression(will), 0, maxLevel - 1);
         tempJSON.skillRanks = skillsPerLevel;
         tempJSON.classSkills = classSkills;
 
@@ -369,64 +369,38 @@ export default function NewClass ( props )
     {
         if ( rate === "good" )
         {
-            return {
-                "1": "2",
-                "2": "3",
-                "3": "3",
-                "4": "4",
-                "5": "4",
-                "6": "5",
-                "7": "5",
-                "8": "6",
-                "9": "6",
-                "10": "7",
-                "11": "7",
-                "12": "8",
-                "13": "8",
-                "14": "9",
-                "15": "9",
-                "16": "10",
-                "17": "10",
-                "18": "11",
-                "19": "11",
-                "20": "12",
+            // Have different progressions based on whether this is a prestige class
+            if ( isPrestige === false )
+            {
+                return "2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12";
+            }
+            else
+            {
+                return "1,1,2,2,3,3,4,4,5,5";
             }
         }
         else if ( rate === "poor" )
         {
-            return {
-                "1": "0",
-                "2": "0",
-                "3": "1",
-                "4": "1",
-                "5": "1",
-                "6": "2",
-                "7": "2",
-                "8": "2",
-                "9": "3",
-                "10": "3",
-                "11": "3",
-                "12": "4",
-                "13": "4",
-                "14": "4",
-                "15": "5",
-                "16": "5",
-                "17": "5",
-                "18": "6",
-                "19": "6",
-                "20": "6",
+            // Have different progressions based on whether this is a prestige class
+            if ( isPrestige === false )
+            {
+                return "0,0,1,1,1,2,2,2,3,3,3,4,4,4,5,5,5,6,6,6";
+            }
+            else
+            {
+                return "0,1,1,1,2,2,2,3,3,3";
             }
         }
         else
         {
-            return {};
+            return "";
         }
     }
 
     function fortSelected ( event )
     {
         // Set fortitude based on the two save progressions
-        setFortitude( saveProgression(event.target.value) );
+        setFortitude(event.target.value);
 
         if( event.target.value != "placeholder" )
         {
@@ -445,7 +419,7 @@ export default function NewClass ( props )
 
     function refSelected ( event )
     {
-        setReflex( saveProgression(event.target.value) );
+        setReflex( event.target.value );
 
         if( event.target.value != "placeholder" )
         {
@@ -464,7 +438,7 @@ export default function NewClass ( props )
 
     function willSelected ( event )
     {
-        setWill( saveProgression(event.target.value) );
+        setWill( event.target.value );
 
         if( event.target.value != "placeholder" )
         {
@@ -817,7 +791,7 @@ export default function NewClass ( props )
         }
         else if ( event.target.value === "complex" )
         {
-            skJSON = spellsKnownStringToJSON("complex," + generateEmptySpellString());
+            skJSON = spellsKnownStringToJSON("complex;" + generateEmptySpellString());
         }
         else
         {

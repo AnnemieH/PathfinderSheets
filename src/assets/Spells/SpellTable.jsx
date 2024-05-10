@@ -154,8 +154,7 @@ export default function SpellTable(props)
         // Update JSON with the value at given coordinates
         const tempJSON = {...spellJSON};
         const tempInnerJSON = {...spellJSON.table[level]};
-
-        console.log(event.target.value)
+        
         // If the value is the empty string, set the JSON at that point to be null
         if ( event.target.value == "" || event.target.value == "-" )
         {

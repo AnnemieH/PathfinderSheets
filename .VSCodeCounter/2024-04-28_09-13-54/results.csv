@@ -1,0 +1,40 @@
+"filename", "language", "JSON", "HTML", "Markdown", "JavaScript", "CSS", "JavaScript JSX", "comment", "blank", "total"
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\.eslintrc.cjs", "JavaScript", 0, 0, 0, 21, 0, 0, 0, 1, 22
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\README.md", "Markdown", 0, 0, 1, 0, 0, 0, 0, 0, 1
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\index.html", "HTML", 0, 13, 0, 0, 0, 0, 0, 1, 14
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\package-lock.json", "JSON", 4465, 0, 0, 0, 0, 0, 0, 1, 4466
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\package.json", "JSON", 31, 0, 0, 0, 0, 0, 0, 1, 32
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\src\App.css", "CSS", 0, 0, 0, 0, 37, 0, 0, 6, 43
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\src\App.jsx", "JavaScript JSX", 0, 0, 0, 0, 0, 21, 1, 4, 26
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Attributes\getModifier.js", "JavaScript", 0, 0, 0, 12, 0, 0, 3, 0, 15
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Buffs\BuffForm.jsx", "JavaScript JSX", 0, 0, 0, 0, 0, 99, 14, 19, 132
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Buffs\BuffList.jsx", "JavaScript JSX", 0, 0, 0, 0, 0, 66, 8, 8, 82
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Buffs\BuffSelector.jsx", "JavaScript JSX", 0, 0, 0, 0, 0, 81, 7, 11, 99
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Buffs\BuffSelectorItem.jsx", "JavaScript JSX", 0, 0, 0, 0, 0, 27, 0, 6, 33
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Buffs\SelectedBuffItem.jsx", "JavaScript JSX", 0, 0, 0, 0, 0, 48, 1, 14, 63
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Characters\CharacterListItem.jsx", "JavaScript JSX", 0, 0, 0, 0, 0, 42, 3, 5, 50
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Characters\CharacterSheet.jsx", "JavaScript JSX", 0, 0, 0, 0, 0, 29, 1, 3, 33
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Characters\SelectCharacter.jsx", "JavaScript JSX", 0, 0, 0, 0, 0, 21, 0, 5, 26
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Characters\Sheet Tabs\SkillsTab.jsx", "JavaScript JSX", 0, 0, 0, 0, 0, 34, 2, 5, 41
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Classes\BaseClassSelector.jsx", "JavaScript JSX", 0, 0, 0, 0, 0, 46, 7, 10, 63
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Classes\ClassList.jsx", "JavaScript JSX", 0, 0, 0, 0, 0, 29, 1, 4, 34
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Classes\ClassTable.jsx", "JavaScript JSX", 0, 0, 0, 0, 0, 78, 9, 18, 105
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Formatting\Formatting.js", "JavaScript", 0, 0, 0, 11, 0, 0, 2, 1, 14
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Navbar.jsx", "JavaScript JSX", 0, 0, 0, 0, 0, 20, 0, 1, 21
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Pages\AddNew.jsx", "JavaScript JSX", 0, 0, 0, 0, 0, 52, 1, 8, 61
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Pages\Character.jsx", "JavaScript JSX", 0, 0, 0, 0, 0, 20, 0, 3, 23
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Pages\EditBuff.jsx", "JavaScript JSX", 0, 0, 0, 0, 0, 10, 0, 1, 11
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Pages\Home.jsx", "JavaScript JSX", 0, 0, 0, 0, 0, 9, 0, 1, 10
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Pages\New\NewBuff.jsx", "JavaScript JSX", 0, 0, 0, 0, 0, 58, 2, 11, 71
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Pages\New\NewClass.jsx", "JavaScript JSX", 0, 0, 0, 0, 0, 1116, 107, 167, 1390
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Skills\SkillRow.jsx", "JavaScript JSX", 0, 0, 0, 0, 0, 92, 11, 15, 118
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Skills\SkillRowRank.jsx", "JavaScript JSX", 0, 0, 0, 0, 0, 76, 10, 12, 98
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Skills\SkillSelector.jsx", "JavaScript JSX", 0, 0, 0, 0, 0, 95, 15, 19, 129
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Spells\SpellKnownTable.jsx", "JavaScript JSX", 0, 0, 0, 0, 0, 125, 11, 23, 159
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Spells\SpellTable.jsx", "JavaScript JSX", 0, 0, 0, 0, 0, 143, 29, 39, 211
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Spells\SpellsPerDayTable.jsx", "JavaScript JSX", 0, 0, 0, 0, 0, 11, 1, 2, 14
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\src\index.css", "CSS", 0, 0, 0, 0, 135, 0, 1, 27, 163
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\src\main.jsx", "JavaScript JSX", 0, 0, 0, 0, 0, 9, 0, 2, 11
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\src\test\NewClass.test.jsx", "JavaScript JSX", 0, 0, 0, 0, 0, 0, 0, 1, 1
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\vite.config.js", "JavaScript", 0, 0, 0, 5, 0, 0, 1, 2, 8
+"Total", "-", 4496, 13, 1, 49, 172, 2457, 248, 457, 7893

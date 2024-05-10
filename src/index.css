@@ -80,8 +80,18 @@ button:focus-visible {
   background-color: #77135e;
 }
 
+.characterListItem{
+  background-color:#77135e;
+  padding: 5pt;
+  border-radius: 5pt;
+}
+
 .ClassSkill.true{
   background-color:#77135e;
+}
+
+.skillTotal{
+  background-color: #c4a4a43a;
 }
 
 .classTable{

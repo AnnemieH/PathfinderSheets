@@ -1,0 +1,78 @@
+Date : 2024-04-27 10:27:43
+Directory : c:\Users\annem\Documents\Programming\pathfinder-sheet
+Total : 34 files,  6953 codes, 221 comments, 422 blanks, all 7596 lines
+
+Languages
++----------------+------------+------------+------------+------------+------------+
+| language       | files      | code       | comment    | blank      | total      |
++----------------+------------+------------+------------+------------+------------+
+| JSON           |          2 |      4,496 |          0 |          2 |      4,498 |
+| JavaScript JSX |         25 |      2,234 |        217 |        382 |      2,833 |
+| CSS            |          2 |        172 |          1 |         33 |        206 |
+| JavaScript     |          3 |         37 |          3 |          4 |         44 |
+| HTML           |          1 |         13 |          0 |          1 |         14 |
+| Markdown       |          1 |          1 |          0 |          0 |          1 |
++----------------+------------+------------+------------+------------+------------+
+
+Directories
++---------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                              | files      | code       | comment    | blank      | total      |
++---------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                 |         34 |      6,953 |        221 |        422 |      7,596 |
+| . (Files)                                                                                         |          6 |      4,536 |          1 |          6 |      4,543 |
+| src                                                                                               |         28 |      2,417 |        220 |        416 |      3,053 |
+| src (Files)                                                                                       |          4 |        202 |          2 |         39 |        243 |
+| src\assets                                                                                        |         23 |      2,215 |        218 |        376 |      2,809 |
+| src\assets (Files)                                                                                |          1 |         20 |          0 |          1 |         21 |
+| src\assets\Buffs                                                                                  |          5 |        321 |         30 |         58 |        409 |
+| src\assets\Characters                                                                             |          3 |         71 |          3 |         10 |         84 |
+| src\assets\Classes                                                                                |          3 |        153 |         17 |         32 |        202 |
+| src\assets\Formatting                                                                             |          1 |         11 |          2 |          1 |         14 |
+| src\assets\Pages                                                                                  |          6 |      1,265 |        110 |        191 |      1,566 |
+| src\assets\Pages (Files)                                                                          |          4 |         91 |          1 |         13 |        105 |
+| src\assets\Pages\New                                                                              |          2 |      1,174 |        109 |        178 |      1,461 |
+| src\assets\Skills                                                                                 |          1 |         95 |         15 |         19 |        129 |
+| src\assets\Spells                                                                                 |          3 |        279 |         41 |         64 |        384 |
+| src\test                                                                                          |          1 |          0 |          0 |          1 |          1 |
++---------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++---------------------------------------------------------------------------------------------------+----------------+------------+------------+------------+------------+
+| filename                                                                                          | language       | code       | comment    | blank      | total      |
++---------------------------------------------------------------------------------------------------+----------------+------------+------------+------------+------------+
+| c:\Users\annem\Documents\Programming\pathfinder-sheet\.eslintrc.cjs                               | JavaScript     |         21 |          0 |          1 |         22 |
+| c:\Users\annem\Documents\Programming\pathfinder-sheet\README.md                                   | Markdown       |          1 |          0 |          0 |          1 |
+| c:\Users\annem\Documents\Programming\pathfinder-sheet\index.html                                  | HTML           |         13 |          0 |          1 |         14 |
+| c:\Users\annem\Documents\Programming\pathfinder-sheet\package-lock.json                           | JSON           |      4,465 |          0 |          1 |      4,466 |
+| c:\Users\annem\Documents\Programming\pathfinder-sheet\package.json                                | JSON           |         31 |          0 |          1 |         32 |
+| c:\Users\annem\Documents\Programming\pathfinder-sheet\src\App.css                                 | CSS            |         37 |          0 |          6 |         43 |
+| c:\Users\annem\Documents\Programming\pathfinder-sheet\src\App.jsx                                 | JavaScript JSX |         21 |          1 |          4 |         26 |
+| c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Buffs\BuffForm.jsx               | JavaScript JSX |         99 |         14 |         19 |        132 |
+| c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Buffs\BuffList.jsx               | JavaScript JSX |         66 |          8 |          8 |         82 |
+| c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Buffs\BuffSelector.jsx           | JavaScript JSX |         81 |          7 |         11 |         99 |
+| c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Buffs\BuffSelectorItem.jsx       | JavaScript JSX |         27 |          0 |          6 |         33 |
+| c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Buffs\SelectedBuffItem.jsx       | JavaScript JSX |         48 |          1 |         14 |         63 |
+| c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Characters\CharacterListItem.jsx | JavaScript JSX |         42 |          3 |          5 |         50 |
+| c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Characters\CharacterSheet.jsx    | JavaScript JSX |          8 |          0 |          0 |          8 |
+| c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Characters\SelectCharacter.jsx   | JavaScript JSX |         21 |          0 |          5 |         26 |
+| c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Classes\BaseClassSelector.jsx    | JavaScript JSX |         46 |          7 |         10 |         63 |
+| c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Classes\ClassList.jsx            | JavaScript JSX |         29 |          1 |          4 |         34 |
+| c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Classes\ClassTable.jsx           | JavaScript JSX |         78 |          9 |         18 |        105 |
+| c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Formatting\Formatting.js         | JavaScript     |         11 |          2 |          1 |         14 |
+| c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Navbar.jsx                       | JavaScript JSX |         20 |          0 |          1 |         21 |
+| c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Pages\AddNew.jsx                 | JavaScript JSX |         52 |          1 |          8 |         61 |
+| c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Pages\Character.jsx              | JavaScript JSX |         20 |          0 |          3 |         23 |
+| c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Pages\EditBuff.jsx               | JavaScript JSX |         10 |          0 |          1 |         11 |
+| c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Pages\Home.jsx                   | JavaScript JSX |          9 |          0 |          1 |         10 |
+| c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Pages\New\NewBuff.jsx            | JavaScript JSX |         58 |          2 |         11 |         71 |
+| c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Pages\New\NewClass.jsx           | JavaScript JSX |      1,116 |        107 |        167 |      1,390 |
+| c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Skills\SkillSelector.jsx         | JavaScript JSX |         95 |         15 |         19 |        129 |
+| c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Spells\SpellKnownTable.jsx       | JavaScript JSX |        125 |         11 |         23 |        159 |
+| c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Spells\SpellTable.jsx            | JavaScript JSX |        143 |         29 |         39 |        211 |
+| c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Spells\SpellsPerDayTable.jsx     | JavaScript JSX |         11 |          1 |          2 |         14 |
+| c:\Users\annem\Documents\Programming\pathfinder-sheet\src\index.css                               | CSS            |        135 |          1 |         27 |        163 |
+| c:\Users\annem\Documents\Programming\pathfinder-sheet\src\main.jsx                                | JavaScript JSX |          9 |          0 |          2 |         11 |
+| c:\Users\annem\Documents\Programming\pathfinder-sheet\src\test\NewClass.test.jsx                  | JavaScript JSX |          0 |          0 |          1 |          1 |
+| c:\Users\annem\Documents\Programming\pathfinder-sheet\vite.config.js                              | JavaScript     |          5 |          1 |          2 |          8 |
+| Total                                                                                             |                |      6,953 |        221 |        422 |      7,596 |
++---------------------------------------------------------------------------------------------------+----------------+------------+------------+------------+------------+
