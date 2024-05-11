@@ -2,6 +2,7 @@ import { TabList, Tabs, Tab, TabPanel } from "react-tabs";
 import 'react-tabs/style/react-tabs.css';
 import SkillsTab from "./Sheet Tabs/SkillsTab";
 import { useEffect, useState } from "react";
+import BasicsTab from "./Sheet Tabs/BasicsTab";
 
 export default function CharacterSheet ( props )
 {
@@ -46,10 +47,14 @@ export default function CharacterSheet ( props )
     return (
         <Tabs forceRenderTabPanel>
             <TabList>
+                <Tab>Basics</Tab>
                 <Tab>Skills</Tab>
                 <Tab>Combat</Tab>
                 <Tab>Magic</Tab>
             </TabList>
+            <TabPanel>
+                <BasicsTab character={currentCharacter} update={patchCharacter}/>
+            </TabPanel>
             <TabPanel>
                 <SkillsTab character={currentCharacter} update={patchCharacter}/>
             </TabPanel>

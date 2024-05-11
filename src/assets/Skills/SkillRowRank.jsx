@@ -31,12 +31,12 @@ export default function SkillRowRank ( props )
     }, [currentCharacter])
 
     // Whenever ranks changes, propagate it to SkillRow
-    useEffect( () => {
-        if ( currentCharacter.skillRanks !== undefined )
-        {
-            props.ranks(ranks);
-        }
-    }, [ranks])
+    // useEffect( () => {
+    //     if ( currentCharacter.skillRanks !== undefined )
+    //     {
+    //         props.ranks(ranks);
+    //     }
+    // }, [ranks])
 
     // Find the skill ranks of this character from this skill and propagate it to SkillRow
     function getSkillRanks ()
@@ -75,7 +75,7 @@ export default function SkillRowRank ( props )
         // Create a regex for validation
         const validationRegex = /^[0-9]+$/
 
-        // Check if input is a number
+        // Check if input is a number, if it's not, revert it to ranks
         if ( !validationRegex.test(event.target.value) && event.target.value !== "" )
         {
             event.target.value = ranks;
@@ -85,6 +85,7 @@ export default function SkillRowRank ( props )
             // Now that we've verified we're dealing with a number, parse it as one and check that we're in allowed ranges
             const input = parseInt(event.target.value);
 
+            // If it's not in the allowed range, revert the textbox back to ranks
             if ( input < 0 || input > totalCharacterLevel( currentCharacter ))
             {
                 event.target.value = ranks;
@@ -102,6 +103,7 @@ export default function SkillRowRank ( props )
     {
         // Propagate tempRanks up
         setRanks(tempRanks);
+        props.ranks(ranks);
 
         // We are no longer editing so set isEditing to false
         setIsEditing(false);

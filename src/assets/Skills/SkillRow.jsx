@@ -8,7 +8,7 @@ export default function SkillRow ( props )
     const [currentCharacter, setCurrentCharacter] = useState({});
     const [skillRanks, setSkillRanks] = useState(0);
 
-    // Set states frm props
+    // Set states from props
     useEffect ( () => {
         setSkill({...props.skill});
         setCurrentCharacter({...props.character});
