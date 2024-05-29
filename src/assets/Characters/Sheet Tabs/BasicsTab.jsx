@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import AttributeDisplayTable from "../../Attributes/AttributeDisplayTable";
+import CharacterClassTable from "../Classes/CharacterClassTable";
 
 export default function BasicsTab( props )
 {
@@ -14,9 +15,9 @@ export default function BasicsTab( props )
     function findAttributeByID ( id )
     {
         // Make sure character exists first
-        if ( currentCharacter.attributes !== undefined )
+        if ( currentCharacter.raw.attributes !== undefined )
         {
-            for ( const attribute of currentCharacter.attributes )
+            for ( const attribute of currentCharacter.raw.attributes )
             {
                 if ( attribute.id.attributeID == id )
                 {
@@ -35,37 +36,67 @@ export default function BasicsTab( props )
         props.update(JSON.stringify(inputJSON));
     }
 
-    if ( currentCharacter.name !== undefined )
+    if ( currentCharacter.raw !== undefined )
     {
         return (
             <span>
-                <h1>{currentCharacter.name}</h1>
-                <table>
-                    <thead></thead>
+                <h1>{currentCharacter.raw.name}</h1>
+                <table id="basicsTable">
                     <tbody>
-                        <tr className="attributeRow">
-                            <td>
-                                <AttributeDisplayTable attribute={findAttributeByID(1)}  update={update}/>
-                            </td>
-                            <td>
-                                <AttributeDisplayTable attribute={findAttributeByID(2)} update={update}/>
-                            </td>
-                            <td>
-                                <AttributeDisplayTable attribute={findAttributeByID(3)} update={update}/>
-                            </td>
-                            <td>
-                                <AttributeDisplayTable attribute={findAttributeByID(4)} update={update}/>
-                            </td>
-                            <td>
-                                <AttributeDisplayTable attribute={findAttributeByID(5)} update={update}/>
-                            </td>
-                            <td>
-                                <AttributeDisplayTable attribute={findAttributeByID(6)} update={update}/>
+                        <tr>
+                            <td colSpan={2}>
+                                <table id="topBasicsTable">
+                                    <thead></thead>
+                                    <tbody>
+                                        <tr className="attributeRow">
+                                            <td>
+                                                <AttributeDisplayTable attribute={findAttributeByID(1)}  update={update}/>
+                                            </td>
+                                            <td>
+                                                <AttributeDisplayTable attribute={findAttributeByID(2)} update={update}/>
+                                            </td>
+                                            <td>
+                                                <AttributeDisplayTable attribute={findAttributeByID(3)} update={update}/>
+                                            </td>
+                                            <td>
+                                                <AttributeDisplayTable attribute={findAttributeByID(4)} update={update}/>
+                                            </td>
+                                            <td>
+                                                <AttributeDisplayTable attribute={findAttributeByID(5)} update={update}/>
+                                            </td>
+                                            <td>
+                                                <AttributeDisplayTable attribute={findAttributeByID(6)} update={update}/>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </td>
                         </tr>
                         <tr>
-                            <td>Race: </td>
-                            <td>{currentCharacter.race.raceName}</td>
+                            <td>
+                                <table id="leftBasicsTable">
+                                    <tbody>
+                                        <tr>
+                                            <td>Race: </td>
+                                            <td>{currentCharacter.raw.race.raceName}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                            <td>
+                                <table id="rightBasicsTable">
+                                    <thead>
+                                        <tr><td><h2>Classes</h2></td></tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <CharacterClassTable character={currentCharacter} editMode={props.editMode} update={update}/>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
                         </tr>
                     </tbody>
                 </table>

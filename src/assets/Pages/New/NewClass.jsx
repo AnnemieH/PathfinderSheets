@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import BaseClassSelector from "../../Classes/BaseClassSelector";
+import ClassSelector from "../../Classes/ClassSelector";
 import SpellsPerDayTable from "../../Spells/SpellsPerDayTable";
 import SkillSelector from "../../Skills/SkillSelector";
 import SpellKnownTable from "../../Spells/SpellKnownTable";
@@ -1161,7 +1161,7 @@ export default function NewClass ( props )
                                         <label htmlFor="archetype">Archetype of: </label>
                                     </td>
                                     <td>
-                                        <BaseClassSelector baseClassSelected={baseClassSelected}/>
+                                        <ClassSelector classSelected={baseClassSelected}/>
                                     </td>
                                     <td>
                                         <label htmlFor="prestige">Is prestige class?</label>

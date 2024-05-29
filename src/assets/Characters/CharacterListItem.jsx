@@ -26,7 +26,7 @@ export default function CharacterListItem( props )
         }
     }
 
-    // If character is clicked, tell Character.jsx that this has been selected
+    // If character is clicked, tell Character.jsx that this has been selected and place the fetched JSON in a raw object
     function selectCharacter ()
     {
         props.selectCharacter(character);
@@ -36,10 +36,10 @@ export default function CharacterListItem( props )
         <>
         {/* Make sure that character has been set before doïng anything*/}
         { Object.values(character).length > 0 &&
-            <div key={character.characterID} value={character.characterID} className="characterListItem" onClick={selectCharacter}>
-                {character.name} the {formatRace(character.race.raceName)} 
-                {character.charClasses.map( charClass => (
-                    <span key={character.characterID + "," + charClass.id.classID}> 
+            <div key={character.raw.characterID} value={character.raw.characterID} className="characterListItem" onClick={selectCharacter}>
+                {character.raw.name} the {formatRace(character.raw.race.raceName)} 
+                {character.derived.charClasses.map( charClass => (
+                    <span key={character.raw.characterID + "," + charClass.id.classID}> 
                         {" " + charClass.charClass.className} 
                     </span>
                 ))}

@@ -18,9 +18,9 @@ export default function SkillRow ( props )
     function getAttributeModifier ()
     {
         // Only run if we have a character
-        if ( currentCharacter.attributes !== undefined )
+        if ( currentCharacter.raw !== undefined )
         {
-            const attribute = currentCharacter.attributes.find( elem => elem.id.attributeID == skill.attribute.attributeID );
+            const attribute = currentCharacter.raw.attributes.find( elem => elem.id.attributeID == skill.attribute.attributeID );
 
             if ( attribute !== undefined )
             {
@@ -66,7 +66,7 @@ export default function SkillRow ( props )
     {
         let isFound = false;
         // Iterate through all classes of currentCharacter
-        currentCharacter.charClasses.forEach(charClass => {
+        currentCharacter.raw.charClasses.forEach(charClass => {
 
             const classSkills = charClass.charClass.classSkills;
             
@@ -82,7 +82,7 @@ export default function SkillRow ( props )
     function classSkillBonus ()
     {
         // Make sure we don't run this before we have a character
-        if ( currentCharacter.charClasses !== undefined )
+        if ( currentCharacter.raw !== undefined )
         {
             // Only give the class skill bonus if the skill is both a class skill and has been trained
             if ( isClassSkill() && skillRanks > 0 )
@@ -112,7 +112,7 @@ export default function SkillRow ( props )
         setSkillRanks ( ranks );
 
         let idJSON = {};
-        idJSON.characterID = currentCharacter.characterID;
+        idJSON.characterID = currentCharacter.raw.characterID;
         idJSON.skillID = skill.skillID;
 
         let joinJSON = {};

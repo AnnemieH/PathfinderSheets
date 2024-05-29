@@ -5,7 +5,7 @@ export function totalCharacterLevel ( currChar )
     try
     {
         // Loop through each class and add their level to total
-        currChar.charClasses.forEach( currClass => {
+        currChar.derived.charClasses.forEach( currClass => {
             total += currClass.level;
         })
 

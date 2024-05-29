@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import CharacterListItem from "./CharacterListItem";
+import { formatCharacter } from "./Functions/formatCharacter";
 
 export default function SelectCharacter ( props )
 {
@@ -11,15 +12,26 @@ export default function SelectCharacter ( props )
 
         fetch(url)
         .then ( res => res.json() )
-        .then ( data => setAllCharacters( data ) );
+        .then ( data => setAllCharacters( formatCharacters(data) ) );
     }, [])
+
+    function formatCharacters ( charArray )
+    {
+        const characterArray = [];
+
+        charArray.forEach( character => {
+            characterArray.push(formatCharacter(character));
+        });
+
+        return characterArray
+    }
 
     return (
         <div>
             <h2>Select Character: </h2>
             <br />
             {allCharacters.map( character => (
-                <CharacterListItem key={character.characterID} character={character} selectCharacter={props.selectCharacter}/>
+                <CharacterListItem key={character.raw.characterID} character={character} selectCharacter={props.selectCharacter}/>
             ))}
         </div>
     )

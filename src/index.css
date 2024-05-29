@@ -80,6 +80,32 @@ button:focus-visible {
   background-color: #77135e;
 }
 
+#root{
+  width: 100%;
+}
+
+#EditButtonfalse{
+  float: right;
+  vertical-align: top;
+  padding-top: 5pt;
+  padding-bottom: 5pt;
+  padding-left: 10pt;
+  padding-right: 10pt;
+  border-radius: 6pt;
+  background-color: gray;
+}
+
+#EditButtontrue{
+  float: right;
+  vertical-align: top;
+  padding-top: 5pt;
+  padding-bottom: 5pt;
+  padding-left: 10pt;
+  padding-right: 10pt;
+  border-radius: 6pt;
+  background-color: green;
+}
+
 .characterListItem{
   background-color:#77135e;
   padding: 5pt;
@@ -109,6 +135,15 @@ button:focus-visible {
   border: #3c0247;
   border-right-style: solid;
   border-right-width: 3pt;
+}
+
+#basicsTable{
+  width: 100%;
+}
+
+#topBasicsTable{
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .ClassSkill.true{

@@ -12,7 +12,6 @@ export default function ClassTable( props )
     const [will, setWill] = useState([]);
 
 
-
     // Whenever the class changes, update their fundamental stats
 
     useEffect(() => {
@@ -41,13 +40,6 @@ export default function ClassTable( props )
     { 
 
         const tempArr = inputString.split(',');
-        // const tempJSON = JSON.parse(inputString);
-
-
-        // levels.map( level => 
-        // {
-        //     tempArr.push(tempJSON[level]);
-        // });
 
         return tempArr;
 

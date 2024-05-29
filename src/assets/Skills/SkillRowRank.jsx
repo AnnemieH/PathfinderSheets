@@ -11,9 +11,12 @@ export default function SkillRowRank ( props )
 
     // Set states from props if they are different
     useEffect( () => {
-        if ( props.character.characterID !== currentCharacter.characterID )
+        if ( props.character.raw !== undefined )
         {
-            setCurrentCharacter({...props.character});
+            if ( currentCharacter.raw === undefined || props.character.raw.characterID !== currentCharacter.raw.characterID )
+            {
+                setCurrentCharacter({...props.character});
+            }
         }
 
         if ( props.skill.skillID !== skill.skillID )
@@ -24,27 +27,19 @@ export default function SkillRowRank ( props )
 
     // Change ranks whenever character changes
     useEffect( () => {
-        if ( currentCharacter.skillRanks !== undefined )
+        if ( currentCharacter.raw !== undefined )
         {
             setRanks(getSkillRanks());
         }
     }, [currentCharacter])
 
-    // Whenever ranks changes, propagate it to SkillRow
-    // useEffect( () => {
-    //     if ( currentCharacter.skillRanks !== undefined )
-    //     {
-    //         props.ranks(ranks);
-    //     }
-    // }, [ranks])
-
     // Find the skill ranks of this character from this skill and propagate it to SkillRow
     function getSkillRanks ()
     {
         // Only run if we have a character
-        if ( currentCharacter.skillRanks !== undefined )
+        if ( currentCharacter.raw !== undefined )
         {
-            const charSkill = currentCharacter.skillRanks.find( elem => elem.id.skillID == skill.skillID );
+            const charSkill = currentCharacter.raw.skillRanks.find( elem => elem.id.skillID == skill.skillID );
 
             if ( charSkill !== undefined )
             {

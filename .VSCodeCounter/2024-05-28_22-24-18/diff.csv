@@ -1,0 +1,13 @@
+"filename", "language", "JavaScript JSX", "JavaScript", "comment", "blank", "total"
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Characters\CharacterSheet.jsx", "JavaScript JSX", -3, 0, 1, -2, -4
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Characters\Classes\CharacterArchetypesOfBaseClass.jsx", "JavaScript JSX", 0, 0, 1, 0, 1
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Characters\Classes\CharacterArchetypesOfBaseClassRow.jsx", "JavaScript JSX", 5, 0, 2, 1, 8
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Characters\Classes\CharacterClassInfo.jsx", "JavaScript JSX", -9, 0, 0, -1, -10
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Characters\Classes\CharacterClassRow.jsx", "JavaScript JSX", 38, 0, 3, 3, 44
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Characters\Classes\CharacterClassTable.jsx", "JavaScript JSX", 67, 0, 9, 15, 91
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Characters\Functions\formatCharacter.js", "JavaScript", 0, 32, 2, 7, 41
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Characters\SelectCharacter.jsx", "JavaScript JSX", -27, 0, -2, -6, -35
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Classes\Functions\compatibleArchetypes.js", "JavaScript", 0, 0, 0, -1, -1
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Generic\ExpandTableRow.jsx", "JavaScript JSX", 23, 0, 4, 0, 27
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Pages\Character.jsx", "JavaScript JSX", 8, 0, 1, 2, 11
+"Total", "-", 102, 32, 21, 18, 173
