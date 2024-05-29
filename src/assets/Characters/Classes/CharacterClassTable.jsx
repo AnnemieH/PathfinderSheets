@@ -87,74 +87,9 @@ export default function CharacterClassTable ( props )
 
     }
 
-    function updateClass ( charClass )
+    function updateClass ( classJSON )
     {
-        // If charClass is already present in character, delete it
-        // Otherwise add it
-        if ( character.raw.charClasses.find( c => (c.id.classID == charClass.charClass.classID) ) )
-        {
-            deleteClass ( charClass );
-        }
-        // Special case for if we're adding an archetype to an existing class
-        else if ( charClass.charClass.archetype.classID !== undefined )
-        {
-            const updateJSON = {};
-            updateJSON.charClasses = [];
-
-            const classJSON = {};
-            classJSON.charClass = charClass.charClass;
-            classJSON.level = (character.raw.charClasses.find( c => ( c.id.classID == charClass.charClass.archetype.classID))).level;
-
-            const idJSON = {};
-            idJSON.classID = charClass.classID;
-            idJSON.characterID = character.raw.characterID;
-            classJSON.id = idJSON;
-
-            updateJSON.charClasses.push({...classJSON});
-
-
-            props.update(updateJSON);
-        }
-        else
-        {
-        }
-    }
-
-    function deleteClass ( charClass )
-    {
-        const updateJSON = {};
-        updateJSON.charClasses = [];
-
-        // Iterate through all character classes and flag archetypes of charClass for deletion
-        for ( const arche of charClass.archetypes )
-        {
-            // To flag archetype for deletion, set its level to -1
-            const classJSON = {};
-            classJSON.charClass = arche;
-            classJSON.level = -1;
-
-            const idJSON = {};
-            idJSON.classID = arche.classID;
-            idJSON.characterID = character.raw.characterID;
-            classJSON.id = idJSON;
-
-            updateJSON.charClasses.push({...classJSON});
-        }
-
-        // Now flag charClass itself for deletion
-        // To flag archetype for deletion, set its level to -1
-        const classJSON = {};
-        classJSON.charClass = charClass.charClass;
-        classJSON.level = -1;
-
-        const idJSON = {};
-        idJSON.classID = charClass.id.classID;
-        idJSON.characterID = character.raw.characterID;
-        classJSON.id = idJSON;
-
-        updateJSON.charClasses.push({...classJSON});
-
-        props.update(updateJSON);
+        props.update ( classJSON )
     }
 
     function expansionSlot( charClass )
@@ -164,13 +99,13 @@ export default function CharacterClassTable ( props )
             return (
                 <>
                     <CharacterClassInfo key={charClass.id.classID + "Info"} id={charClass.id.classID + "Info"} character={character} charClass={charClass} />
-                    <ExpandTableRow expand={() => expandInfo(charClass.id.classID)} maxCols={3} down={false} />
+                    <ExpandTableRow expand={() => expandInfo(charClass.id.classID)} maxCols={4} down={false} />
                 </>
         );
         }
         else
         {
-            return (<ExpandTableRow expand={() => expandInfo(charClass.id.classID)} maxCols={3} down={true} />);
+            return (<ExpandTableRow expand={() => expandInfo(charClass.id.classID)} maxCols={4} down={true} />);
         }
     }
 
@@ -183,17 +118,18 @@ export default function CharacterClassTable ( props )
                     <td>Class Name</td>
                     <td>Archetypes</td>
                     <td>Level</td>
+                    <td>HP</td>
                 </tr>
             </thead>
             <tbody>
-                { character.derived.charClasses.map( charClass => (
+                { (character.derived.charClasses.sort((a,b) => b.level > a.level)).map( charClass => (
                     <React.Fragment key={charClass.id.classID + "Fragment"}>
-                        <CharacterClassRow key={charClass.id.classID + "Row"} charClass={charClass} editMode={props.editMode} update={updateClass}/>
+                        <CharacterClassRow key={charClass.id.classID + "Row"} character={character} charClass={charClass} editMode={props.editMode} update={updateClass}/>
                         {expansionSlot( charClass )}
                     </React.Fragment>
                 ))}
                 <tr>
-                    <td colSpan={3}>
+                    <td colSpan={4}>
                         <table>
                             <tbody>
                                 <NewCharacterClass editMode={props.editMode} character={character} add={addClass}/>

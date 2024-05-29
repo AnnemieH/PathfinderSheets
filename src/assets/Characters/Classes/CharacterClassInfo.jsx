@@ -24,7 +24,6 @@ export default function CharacterClassInfo ( props )
                             <tr>
                                 <td></td>
                                 <td>Hit die</td>
-                                <td>HP</td>
                                 <td>Skills</td>
                                 <td>BAB</td>
                                 <td>Fort</td>
@@ -36,7 +35,6 @@ export default function CharacterClassInfo ( props )
                             <tr>
                                 <td></td>
                                 <td>D{charClass.charClass.hitDie}</td>
-                                <td>{charClass.hp + (getModifier(findCharAttributeByID(character, 3)) * charClass.level)}</td>
                                 <td>{(charClass.charClass.skillRanks + getModifier(findCharAttributeByID(character, 4))) * charClass.level}</td>
                                 <td>{babAtLevel( charClass, charClass.level )}</td>
                                 <td>{fortAtLevel( charClass, charClass.level )}</td>
