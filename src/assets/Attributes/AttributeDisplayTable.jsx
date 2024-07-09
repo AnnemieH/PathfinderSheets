@@ -3,7 +3,7 @@ import { getModifier } from "./getModifier";
 
 export default function AttributeDisplayTable (props)
 {
-    const [attribute, setAttribute] = useState({});
+    const [attribute, setAttribute] = useState(0);
     const [isEditing, setIsEditing] = useState(false);
     const [tempValue, setTempValue] = useState(10);
 
@@ -74,25 +74,21 @@ export default function AttributeDisplayTable (props)
         props.update(attributesArrayJSON);
 
         // Update the value held in attribute
-        attribute.value = tempValue;
+        setAttribute(tempValue)
 
     }
 
-    if ( attribute.value === undefined )
-    {
-        return ( <></> )
-    }
-    else if ( isEditing === false )
+    if ( isEditing === false )
     {
         return (
             <table className="attributeDisplayTable">
                 <tbody>
                     <tr onClick={changeAttribute}>
-                        <td className="attributeModifierDisplay" onClick={changeAttribute}>{formatAttributeModifier(attribute.value)}</td>
-                        <td className="attributeDisplay" onClick={changeAttribute}>({attribute.value})</td>
+                        <td className="attributeModifierDisplay" onClick={changeAttribute}>{formatAttributeModifier(attribute)}</td>
+                        <td className="attributeDisplay" onClick={changeAttribute}>({attribute})</td>
                     </tr>
                     <tr>
-                        <td colSpan={2}>{attribute.attribute.attributeName}</td>
+                        <td colSpan={2}>{props.attributeName}</td>
                     </tr>
                 </tbody>
             </table>
@@ -105,12 +101,12 @@ export default function AttributeDisplayTable (props)
                 <tbody>
                     <tr>
                         <td>
-                            <input type="text" defaultValue={attribute.value} size={2} onChange={inputValidation}/>
+                            <input type="text" defaultValue={attribute} size={2} onChange={inputValidation}/>
                             <button type="button" onClick={submit}>Submit</button>
                         </td>
                     </tr>
                     <tr>
-                        <td>{attribute.attribute.attributeName}</td>
+                        <td>{props.attributeName}</td>
                     </tr>
                 </tbody>
             </table>

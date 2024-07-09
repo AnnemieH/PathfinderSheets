@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { getModifier } from "../../Attributes/getModifier";
-import findCharAttributeByID from "../Functions/attributes";
+import findRawCharAttributeByID from "../Functions/Gameplay/attributes";
 
 // PROPS
 // charClass - the class we're working on
@@ -73,7 +73,7 @@ export default function HPCell ( props )
                                 <input type="text" size={4} id={props.charClass.id.classid + "hpInput"} onChange={hpChanged}/>
                             </td>
                             <td>
-                                + {(getModifier(findCharAttributeByID(props.character, 3)) * props.charClass.level)}
+                                + {(getModifier(findRawCharAttributeByID(props.character, 3)) * props.charClass.level)}
                             </td>
                         </tr>
                         <tr>
@@ -89,7 +89,7 @@ export default function HPCell ( props )
         {
             return (
                 <span>
-                    {parseInt(props.charClass.hp) + parseInt(getModifier(findCharAttributeByID(props.character, 3)) * props.charClass.level)}
+                    {parseInt(props.charClass.hp) + parseInt(getModifier(findRawCharAttributeByID(props.character, 3)) * props.charClass.level)}
                 </span>
             );
         }

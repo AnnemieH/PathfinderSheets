@@ -80,11 +80,11 @@ export default function ClassTable( props )
                         <td>{fortitude[level - 1]}</td>
                         <td>{reflex[level - 1]}</td>
                         <td>{will[level - 1]}</td>
-                        <td>{thisClass.buffs.map( buff => (
-                            buff.id.level == level &&
-                            <span key = {buff.id.buffID} className="tooltip">{buff.buff.buffName} 
-                                <span key={"tooltip" + buff.id.buffID} className="tooltipText">
-                                    {buff.buff.buffDescription}
+                        <td>{thisClass.classFeatures.map( feature => (
+                            feature.id.level == level &&
+                            <span key = {feature.id.classFeatureID} className="tooltip">{feature.classFeature.name} 
+                                <span key={"tooltip" + feature.id.classFeatureID} className="tooltipText">
+                                    {feature.classFeature.description}
                                 </span>
                             </span>
                         ))}

@@ -3,8 +3,8 @@ import ClassSelector from "../../Classes/ClassSelector";
 import SpellsPerDayTable from "../../Spells/SpellsPerDayTable";
 import SkillSelector from "../../Skills/SkillSelector";
 import SpellKnownTable from "../../Spells/SpellKnownTable";
-import BuffList from "../../Buffs/BuffList";
-import BuffSelector from "../../Buffs/BuffSelector";
+import ClassFeatureList from "../../ClassFeatures/ClassFeatureList";
+import ClassFeatureSelector from "../../ClassFeatures/ClassFeatureSelector";
 
 export default function NewClass ( props )
 {
@@ -16,9 +16,9 @@ export default function NewClass ( props )
     const [fortitude, setFortitude] = useState("");
     const [reflex, setReflex] = useState("");
     const [will, setWill] = useState("");
-    const [inheritedBuffs, setInheritedBuffs] = useState([]);                   // All buffs inherited from the base class
-    const [filteredInheritedBuffs, setFilteredInheritedBuffs] = useState([]);   // Only the buffs we wish to keep from the inherited class
-    const [buffs, setBuffs] = useState([]);
+    const [inheritedClassFeatures, setInheritedClassFeatures] = useState([]);                   // All buffs inherited from the base class
+    const [filteredInheritedClassFeatures, setFilteredInheritedClassFeatures] = useState([]);   // Only the buffs we wish to keep from the inherited class
+    const [classFeatures, setClassFeatures] = useState([]);
     const [isSpellcaster, setIsSpellcaster] = useState(false);
     const [castingStat, setCastingStat] = useState({})
     const [casterType, setCasterType] = useState({});
@@ -48,7 +48,7 @@ export default function NewClass ( props )
     // Assemble postJSON whenever any constituënt changes
     useEffect(() => {
         setPostJSON(JSON.stringify(assemblePostJSON()));
-    }, [name, baseClass, isPrestige, maxLevel, buffs, inheritedBuffs, filteredInheritedBuffs, hitDie, bab, fortitude, reflex, will, skillsPerLevel, classSkills, casterType, castingStat, magicSource, spellList, spellsPerDay, spellsKnown])
+    }, [name, baseClass, isPrestige, maxLevel, classFeatures, inheritedClassFeatures, filteredInheritedClassFeatures, hitDie, bab, fortitude, reflex, will, skillsPerLevel, classSkills, casterType, castingStat, magicSource, spellList, spellsPerDay, spellsKnown])
     
     function assemblePostJSON ()
     {
@@ -63,7 +63,7 @@ export default function NewClass ( props )
         }
 
         tempJSON.isPrestige = isPrestige;
-        tempJSON.buffs = filteredInheritedBuffs.concat(buffs);
+        tempJSON.classFeatures = filteredInheritedClassFeatures.concat(classFeatures);
         tempJSON.hitDie = hitDie;
         // Make sure to truncate certain values based on maxLevel
         tempJSON.bab = csvTruncate(bab, 0, maxLevel - 1);
@@ -944,7 +944,7 @@ export default function NewClass ( props )
             setFortitude( baseClass.fortitude );
             setReflex( baseClass.reflex );
             setWill( baseClass.will );
-            setInheritedBuffs( stripClassIDFromBuffs(baseClass.buffs) );
+            setInheritedClassFeatures( stripClassIDFromClassFeatures(baseClass.classFeatures) );
 
 
             // Check to see if one of the spellcasting stats is null to determine whether this is a spellcasting class
@@ -973,7 +973,7 @@ export default function NewClass ( props )
             setFortitude( "" );
             setReflex( "" );
             setWill( "" );
-            setBuffs( [] );
+            setClassFeatures( [] );
             setIsSpellcaster( false );
             setCastingStat( {} );
             setCasterType( {} );
@@ -991,14 +991,14 @@ export default function NewClass ( props )
     }, [baseClass])
 
     // Strip out the previous classID from inherited buffs
-    function stripClassIDFromBuffs ( buffArray )
+    function stripClassIDFromClassFeatures ( classFeatureArray )
     {
-        let strippedBuffs = [...buffArray];
-        strippedBuffs.forEach( buff => {
-            delete buff.id.classID;
+        let strippedClassFeatures = [...classFeatureArray];
+        strippedClassFeatures.forEach( feature => {
+            delete feature.id.classID;
         });
 
-        return strippedBuffs;
+        return strippedClassFeatures;
     }
 
     // Strip out the previous classID from inherited skills
@@ -1116,14 +1116,14 @@ export default function NewClass ( props )
         }
     }
 
-    function updateSelectedBuffs ( buffArray )
+    function updateSelectedClassFeatures ( classFeatureArray )
     {
-        setBuffs( buffArray );
+        setClassFeatures( classFeatureArray );
     }
 
-    function alterInheritedBuffs ( buffArray )
+    function alterInheritedClassFeatures ( classFeatureArray )
     {
-        setFilteredInheritedBuffs( buffArray );
+        setFilteredInheritedClassFeatures( classFeatureArray );
     }  
 
     // Change the max class level based on whether this is a prestige class
@@ -1237,12 +1237,12 @@ export default function NewClass ( props )
                                 </tr>
                                 <tr>
                                     <td colSpan={6}>
-                                        <BuffList inheritedBuffs={inheritedBuffs} update={alterInheritedBuffs} />
+                                        <ClassFeatureList inheritedClassFeatures={inheritedClassFeatures} update={alterInheritedClassFeatures} />
                                     </td>
                                 </tr>
                                 <tr>
                                     <td colSpan={6}>
-                                        <BuffSelector update={updateSelectedBuffs}/>
+                                        <ClassFeatureSelector update={updateSelectedClassFeatures}/>
                                     </td>
                                 </tr>
                             </tbody>

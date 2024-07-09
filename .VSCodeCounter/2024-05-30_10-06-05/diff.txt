@@ -1,0 +1,43 @@
+Date : 2024-05-30 10:06:05
+Directory : c:\Users\annem\Documents\Programming\pathfinder-sheet
+Total : 9 files,  143 codes, 6 comments, 25 blanks, all 174 lines
+
+Languages
++----------------+------------+------------+------------+------------+------------+
+| language       | files      | code       | comment    | blank      | total      |
++----------------+------------+------------+------------+------------+------------+
+| JavaScript     |          6 |         83 |          4 |         24 |        111 |
+| JavaScript JSX |          3 |         60 |          2 |          1 |         63 |
++----------------+------------+------------+------------+------------+------------+
+
+Directories
++--------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                         | files      | code       | comment    | blank      | total      |
++--------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                            |          9 |        143 |          6 |         25 |        174 |
+| src                                                                                                          |          9 |        143 |          6 |         25 |        174 |
+| src\assets                                                                                                   |          9 |        143 |          6 |         25 |        174 |
+| src\assets\Characters                                                                                        |          9 |        143 |          6 |         25 |        174 |
+| src\assets\Characters\Functions                                                                              |          6 |         83 |          4 |         24 |        111 |
+| src\assets\Characters\Functions (Files)                                                                      |          2 |         35 |          4 |         13 |         52 |
+| src\assets\Characters\Functions\Gameplay                                                                     |          4 |         48 |          0 |         11 |         59 |
+| src\assets\Characters\Sheet Tabs                                                                             |          3 |         60 |          2 |          1 |         63 |
+| src\assets\Characters\Sheet Tabs (Files)                                                                     |          1 |        -15 |         -3 |         -2 |        -20 |
+| src\assets\Characters\Sheet Tabs\Combat                                                                      |          2 |         75 |          5 |          3 |         83 |
++--------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++--------------------------------------------------------------------------------------------------------------+----------------+------------+------------+------------+------------+
+| filename                                                                                                     | language       | code       | comment    | blank      | total      |
++--------------------------------------------------------------------------------------------------------------+----------------+------------+------------+------------+------------+
+| c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Characters\Functions\Gameplay\ac.js         | JavaScript     |          7 |          0 |          2 |          9 |
+| c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Characters\Functions\Gameplay\attributes.js | JavaScript     |          4 |          0 |          0 |          4 |
+| c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Characters\Functions\Gameplay\hp.js         | JavaScript     |         10 |          0 |          1 |         11 |
+| c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Characters\Functions\Gameplay\saves.js      | JavaScript     |         27 |          0 |          8 |         35 |
+| c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Characters\Functions\attributes.js          | JavaScript     |         -4 |          0 |          0 |         -4 |
+| c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Characters\Functions\initialiseChar.js      | JavaScript     |         39 |          4 |         13 |         56 |
+| c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Characters\Sheet Tabs\CombatTab.jsx         | JavaScript JSX |        -15 |         -3 |         -2 |        -20 |
+| c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Characters\Sheet Tabs\Combat\CombatTab.jsx  | JavaScript JSX |         29 |          3 |          2 |         34 |
+| c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Characters\Sheet Tabs\Combat\SavesTable.jsx | JavaScript JSX |         46 |          2 |          1 |         49 |
+| Total                                                                                                        |                |        143 |          6 |         25 |        174 |
++--------------------------------------------------------------------------------------------------------------+----------------+------------+------------+------------+------------+

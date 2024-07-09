@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import SelectCharacter from "../Characters/SelectCharacter";
 import CharacterSheet from "../Characters/CharacterSheet";
 import { formatCharacter } from "../Characters/Functions/formatCharacter";
+import { initialiseChar } from "../Characters/Functions/initialiseChar";
 
 export default function Character ()
 {
@@ -21,7 +22,7 @@ export default function Character ()
     {
         // Perform initial modifications to the character object
 
-        setCurrentCharacter({...selectedCharacter});
+        setCurrentCharacter(initialiseChar({...selectedCharacter}));
     }
 
     return (

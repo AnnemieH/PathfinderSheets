@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import AttributeDisplayTable from "../../Attributes/AttributeDisplayTable";
 import CharacterClassTable from "../Classes/CharacterClassTable";
+import { getCharisma, getConstitution, getDexterity, getIntelligence, getStrength, getWisdom } from "../Functions/Gameplay/attributes";
 
 export default function BasicsTab( props )
 {
@@ -50,22 +51,22 @@ export default function BasicsTab( props )
                                     <tbody>
                                         <tr className="attributeRow">
                                             <td>
-                                                <AttributeDisplayTable attribute={findAttributeByID(1)}  update={update}/>
+                                                <AttributeDisplayTable attribute={getStrength(currentCharacter)} attributeName="Strength"  update={update}/>
                                             </td>
                                             <td>
-                                                <AttributeDisplayTable attribute={findAttributeByID(2)} update={update}/>
+                                                <AttributeDisplayTable attribute={getDexterity(currentCharacter)} attributeName="Dexterity" update={update}/>
                                             </td>
                                             <td>
-                                                <AttributeDisplayTable attribute={findAttributeByID(3)} update={update}/>
+                                                <AttributeDisplayTable attribute={getConstitution(currentCharacter)} attributeName="Constitution" update={update}/>
                                             </td>
                                             <td>
-                                                <AttributeDisplayTable attribute={findAttributeByID(4)} update={update}/>
+                                                <AttributeDisplayTable attribute={getIntelligence(currentCharacter)} attributeName="Intelligence" update={update}/>
                                             </td>
                                             <td>
-                                                <AttributeDisplayTable attribute={findAttributeByID(5)} update={update}/>
+                                                <AttributeDisplayTable attribute={getWisdom(currentCharacter)} attributeName="Wisdom" update={update}/>
                                             </td>
                                             <td>
-                                                <AttributeDisplayTable attribute={findAttributeByID(6)} update={update}/>
+                                                <AttributeDisplayTable attribute={getCharisma(currentCharacter)} attributeName="Charisma" update={update}/>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -74,7 +75,7 @@ export default function BasicsTab( props )
                         </tr>
                         <tr>
                             <td>
-                                <table id="leftBasicsTable">
+                                <table id="basicsLeftTable">
                                     <tbody>
                                         <tr>
                                             <td>Race: </td>
@@ -84,7 +85,7 @@ export default function BasicsTab( props )
                                 </table>
                             </td>
                             <td>
-                                <table id="rightBasicsTable">
+                                <table id="basicsRightTable">
                                     <thead>
                                         <tr><td><h2>Classes</h2></td></tr>
                                     </thead>

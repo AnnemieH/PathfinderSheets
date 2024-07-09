@@ -1,5 +1,5 @@
 import { createElement, useEffect, useState } from "react"
-import NewBuff from "./New/NewBuff";
+import NewClassFeature from "./New/NewClassFeature";
 import NewClass from "./New/NewClass";
 
 export default function AddNew()
@@ -28,9 +28,9 @@ export default function AddNew()
 
     function changeTable( event )
     {
-        if ( event.target.value === "buff" )
+        if ( event.target.value === "classFeature" )
         {
-             setSelectedTable("NewBuff");
+             setSelectedTable("NewClassFeature");
         }
         else if ( event.target.value === "class" )
         {
@@ -48,11 +48,11 @@ export default function AddNew()
         <form onSubmit={submitPost}>
             <select name="tableSelector" id="tableSelector" onChange={changeTable}>
                 <option value="placeholder">Select what to add</option>
-                <option value="buff">Buff</option>
+                <option value="classFeature">Class Feature</option>
                 <option value="class">Class</option>
             </select>
             <br />
-            {SelectedTable === "NewBuff" && <NewBuff jsonUpdate = {jsonUpdate}/>}
+            {SelectedTable === "NewClassFeature" && <NewClassFeature jsonUpdate = {jsonUpdate}/>}
             {SelectedTable ==="NewClass" && <NewClass jsonUpdate = {jsonUpdate}/>}
             <br />
             <input type="submit" value="Submit" />

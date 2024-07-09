@@ -141,6 +141,11 @@ button:focus-visible {
   width: 100%;
 }
 
+#basicsRightTable{
+  margin-left: auto;
+  margin-right: auto;
+}
+
 #topBasicsTable{
   margin-left: auto;
   margin-right: auto;
@@ -190,7 +195,7 @@ button:focus-visible {
   text-align: left;
 }
 
-.buffItem.hovering{
+.classFeatureItem.hovering{
   background-color: #4d055c;  
 }
 

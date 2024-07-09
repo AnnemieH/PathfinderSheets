@@ -1,4 +1,4 @@
-function buffDelta ( primaryClass, secondaryClass )
+function classFeatureDelta ( primaryClass, secondaryClass )
 {
     // Return an empty array if we get garbage in
     if ( primaryClass === undefined || secondaryClass === undefined )
@@ -7,20 +7,20 @@ function buffDelta ( primaryClass, secondaryClass )
     }
 
 
-    // Iterate through the buffs of primaryClass and, if they are not present in secondaryClass, add them to the delta array
+    // Iterate through the classFeatures of primaryClass and, if they are not present in secondaryClass, add them to the delta array
     let delta = [];
 
-    for ( const buff of primaryClass.buffs )
+    for ( const classFeature of primaryClass.classFeatures )
     {
 
-        // Check if the buffID and level of buff are represented in any buffs of secondary class
-        if ( secondaryClass.buffs.find( secondBuff => 
+        // Check if the classFeatureID and level of classFeature are represented in any buffs of secondary class
+        if ( secondaryClass.classFeatures.find( secondClassFeature => 
         ( 
-            buff.id.buffID == secondBuff.id.buffID && 
-            buff.id.level == secondBuff.id.level 
+            classFeature.id.classFeatureID == secondClassFeature.id.classFeatureID && 
+            classFeature.id.level == secondClassFeature.id.level 
         )) === undefined )
         {
-            delta.push({...buff});
+            delta.push({...classFeature});
         }
     }
 
@@ -43,14 +43,14 @@ export function compatibleArchetypes ( arche1, arche2 )
     else
     {
         // Calculate the deltas between each archetype and base class
-        const delta1 = buffDelta( arche1.archetype, arche1 );
-        const delta2 = buffDelta( arche2.archetype, arche2 );
+        const delta1 = classFeatureDelta( arche1.archetype, arche1 );
+        const delta2 = classFeatureDelta( arche2.archetype, arche2 );
 
         // If B\A is empty and A\B is empty then A = B 
         if 
         (
-            delta1.filter(x => delta2.find(y => y.id.buffID = x.id.buffID) !== undefined).length === 0 &&
-            delta2.filter(x => delta1.find(y => y.id.buffID = x.id.buffID) !== undefined).length === 0
+            delta1.filter(x => delta2.find(y => y.id.classFeatureID = x.id.classFeatureID) !== undefined).length === 0 &&
+            delta2.filter(x => delta1.find(y => y.id.classFeatureID = x.id.classFeatureID) !== undefined).length === 0
         )
         {
             return true;
@@ -71,7 +71,7 @@ export function isArchetypeCompatible( arche, archeArray )
         return true;
     }
     const diffUnion = new Set([]);
-    const archeDiff = buffDelta ( arche.archetype, arche );
+    const archeDiff = classFeatureDelta ( arche.archetype, arche );
     // Calculate the union of the diffs in archeArray
     for ( const archetype of archeArray )
     {
@@ -81,7 +81,7 @@ export function isArchetypeCompatible( arche, archeArray )
             return false;
         }
         // Calculate the delta and add the elements to diffUnion
-        const delta = buffDelta( archetype.archetype, archetype )
+        const delta = classFeatureDelta( archetype.archetype, archetype )
         delta.forEach( elem => diffUnion.add(elem));
     }
 
@@ -91,7 +91,7 @@ export function isArchetypeCompatible( arche, archeArray )
 
 
     // If archeArray and diffArray are distinct, then arche is compatible with archeArray, otherwise it is incompatible
-    const intersection = diffArray.filter( x => archeDiff.find(y => y.id.buffID === x.id.buffID && y.id.level === x.id.level) !== undefined)
+    const intersection = diffArray.filter( x => archeDiff.find(y => y.id.classFeatureID === x.id.classFeatureID && y.id.level === x.id.level) !== undefined)
 
     if
     ( intersection.length === 0 )
@@ -120,16 +120,16 @@ export function applyArchetypes ( baseClasses, archetypes )
             {
                 modifiedBase.archetypes.push( archetype.charClass );
 
-                for ( const buff of archetype.charClass.buffs )
+                for ( const classFeature of archetype.charClass.classFeatures )
                 {
-                    (modifiedBase.charClass.buffs).push(buff);
+                    (modifiedBase.charClass.classFeatures).push(classFeature);
                 }
 
-                for ( const buffToRemove of buffDelta(base.charClass, archetype.charClass) )
+                for ( const buffToRemove of classFeatureDelta(base.charClass, archetype.charClass) )
                 {
-                    modifiedBase.charClass.buffs = 
+                    modifiedBase.charClass.classFeatures = 
                     (
-                        modifiedBase.charClass.buffs).filter ( buff => !(buff.id.buffID == buffToRemove.id.buffID && buff.id.level == buffToRemove.id.level) 
+                        modifiedBase.charClass.classFeatures).filter ( classFeature => !(classFeature.id.classFeatureID == buffToRemove.id.classFeatureID && classFeature.id.level == buffToRemove.id.level) 
                     );
                 }
             }

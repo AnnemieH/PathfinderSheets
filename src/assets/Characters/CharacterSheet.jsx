@@ -3,6 +3,7 @@ import 'react-tabs/style/react-tabs.css';
 import SkillsTab from "./Sheet Tabs/SkillsTab";
 import { useEffect, useState } from "react";
 import BasicsTab from "./Sheet Tabs/BasicsTab";
+import CombatTab from "./Sheet Tabs/Combat/CombatTab";
 
 // PROPS
 // character - an object with two members: raw (where the raw database data is kept untouched unless we want to make database changes); and
@@ -69,7 +70,7 @@ export default function CharacterSheet ( props )
                     <SkillsTab character={currentCharacter} update={patchCharacter}/>
                 </TabPanel>
                 <TabPanel>
-                    CombatTab                
+                    <CombatTab character={currentCharacter} update={patchCharacter}/>
                 </TabPanel>
                 <TabPanel>
                     MagicTab

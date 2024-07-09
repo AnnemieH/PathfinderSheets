@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import findCharAttributeByID from "../Functions/attributes";
+import findRawCharAttributeByID from "../Functions/Gameplay/attributes";
 import { getModifier } from "../../Attributes/getModifier";
 import { babAtLevel, fortAtLevel, refAtLevel, willAtLevel } from "../../Classes/Functions/babsaves";
 
@@ -35,7 +35,7 @@ export default function CharacterClassInfo ( props )
                             <tr>
                                 <td></td>
                                 <td>D{charClass.charClass.hitDie}</td>
-                                <td>{(charClass.charClass.skillRanks + getModifier(findCharAttributeByID(character, 4))) * charClass.level}</td>
+                                <td>{(charClass.charClass.skillRanks + getModifier(findRawCharAttributeByID(character, 4))) * charClass.level}</td>
                                 <td>{babAtLevel( charClass, charClass.level )}</td>
                                 <td>{fortAtLevel( charClass, charClass.level )}</td>
                                 <td>{refAtLevel( charClass, charClass.level )}</td>

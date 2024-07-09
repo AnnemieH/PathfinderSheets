@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { getModifier } from "../Attributes/getModifier";
 import SkillRowRank from "./SkillRowRank";
+import { findCharAttributeByID } from "../Characters/Functions/Gameplay/attributes";
 
 export default function SkillRow ( props )
 {
@@ -20,11 +21,11 @@ export default function SkillRow ( props )
         // Only run if we have a character
         if ( currentCharacter.raw !== undefined )
         {
-            const attribute = currentCharacter.raw.attributes.find( elem => elem.id.attributeID == skill.attribute.attributeID );
+            const attribute = findCharAttributeByID( currentCharacter, skill.attribute.attributeID );
 
-            if ( attribute !== undefined )
+            if ( attribute !== null )
             {
-                return getModifier(attribute.value);
+                return getModifier(attribute);
             }
             else
             {

@@ -112,33 +112,33 @@ export default function CharacterClassTable ( props )
     if ( character.raw !== undefined )
     {
         return (
-            <table>
-            <thead>
-                <tr>
-                    <td>Class Name</td>
-                    <td>Archetypes</td>
-                    <td>Level</td>
-                    <td>HP</td>
-                </tr>
-            </thead>
-            <tbody>
-                { (character.derived.charClasses.sort((a,b) => b.level > a.level)).map( charClass => (
-                    <React.Fragment key={charClass.id.classID + "Fragment"}>
-                        <CharacterClassRow key={charClass.id.classID + "Row"} character={character} charClass={charClass} editMode={props.editMode} update={updateClass}/>
-                        {expansionSlot( charClass )}
-                    </React.Fragment>
-                ))}
-                <tr>
-                    <td colSpan={4}>
-                        <table>
-                            <tbody>
-                                <NewCharacterClass editMode={props.editMode} character={character} add={addClass}/>
-                                <CharacterClassToAdd classes={characterClassesToAdd} addClass={postClass}/>
-                            </tbody>
-                        </table>
-                    </td>
-                </tr>
-            </tbody>
+            <table id="basicsClassTable">
+                <thead>
+                    <tr>
+                        <td>Class Name</td>
+                        <td>Archetypes</td>
+                        <td>Level</td>
+                        <td>HP</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    { (character.derived.charClasses.sort((a,b) => b.level > a.level)).map( charClass => (
+                        <React.Fragment key={charClass.id.classID + "Fragment"}>
+                            <CharacterClassRow key={charClass.id.classID + "Row"} character={character} charClass={charClass} editMode={props.editMode} update={updateClass}/>
+                            {expansionSlot( charClass )}
+                        </React.Fragment>
+                    ))}
+                    <tr>
+                        <td colSpan={4}>
+                            <table>
+                                <tbody>
+                                    <NewCharacterClass editMode={props.editMode} character={character} add={addClass}/>
+                                    <CharacterClassToAdd classes={characterClassesToAdd} addClass={postClass}/>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
             </table>
         )
     }

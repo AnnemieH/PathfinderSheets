@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import CharacterArchetypesOfBaseClass from "./CharacterArchetypesOfBaseClass";
 import ClassSelector from "../../Classes/ClassSelector";
-import findCharAttributeByID from "../Functions/attributes";
+import findRawCharAttributeByID from "../Functions/Gameplay/attributes";
 import { getModifier } from "../../Attributes/getModifier";
 import HPCell from "./HPCell";
 import LevelCell from "./LevelCell";
