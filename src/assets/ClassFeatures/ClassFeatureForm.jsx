@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react"
+import ClassFeatureDropdown from "./ClassFeatureDropdown";
+import ClassFeatureVariableDropdown from "./ClassFeatureVariableDropdown";
+import ClassFeatureVariableEdit from "./ClassFeatureVariableEdit";
 
 export default function ClassFeatureForm()
 {
     const [totalClassFeatures, setTotalClassFeatures] = useState([]);
     const [selectedClassFeature, setSelectedClassFeature] = useState([]);
-    const [selectedParam, setSelectedParam] = useState([]);
+    const [selectedVar, setSelectedVar] = useState([]);
 
-    // Read all the buffs from the API
+    // Read all the class features from the API
     useEffect(() =>
     {
     refreshClassFeatures();
@@ -26,8 +29,11 @@ export default function ClassFeatureForm()
 
     // Change valField whenever selectedClassFeature or selectedParam change
     useEffect(() => {
-        document.getElementById('valField').value = formatTextToDisplay(selectedClassFeature[selectedParam]);
-    }, [selectedClassFeature, selectedParam])
+        if ( Object.keys(selectedVar) > 0 )
+        {
+            document.getElementById('valField').value = formatTextToDisplay(selectedClassFeature[selectedVar]);
+        }
+    }, [selectedClassFeature, selectedVar])
 
     // If the class feature selection is changed, change the selected buff
     function changeClassFeature ( event )
@@ -40,18 +46,20 @@ export default function ClassFeatureForm()
         }
     }
 
-    // If the parameter selection is changed, change the selected parameter
-    function changeParam ( event )
+    // If the variäble selection is changed, change the selected parameter
+    function changeVar ( event )
     {
         // Make sure that we're dealing with an actual buff
         if ( event.target.value != "placeholder" )
         {
-            setSelectedParam ( event.target.value );
+            setSelectedVar ( event.target.value );
         }
     }
 
     function formatTextToDisplay ( input )
     {
+        console.log(input)
+        console.log(typeof(input))
         // If input is null, return an empty string
         if ( typeof(input) === "undefined" )
         {
@@ -61,6 +69,14 @@ export default function ClassFeatureForm()
         if ( typeof(input) === "string" )
         {
             return input;
+        }
+        else if ( typeof(input) === "number" )
+        {
+            return input.toString();
+        }
+        else if ( typeof( input ) === "object" )
+        {
+            return JSON.stringify(input);
         }
 
         // If input is an array, concatenate it with line breaks, then return it
@@ -95,17 +111,26 @@ export default function ClassFeatureForm()
 
     function handleSubmit ( event )
     {
+        console.log(event.target)
+
+        // Iterate through all the fields of the form, ignoring the submit button.
+        for ( let i = 0;
+            i < event.target.length - 1;
+            ++i)
+        {
+            console.log(event.target[i].value)    
+        }
         event.preventDefault();
         const requestOptions = 
         {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json-patch+json'},
-            body: "[" + JSON.stringify({op: "replace", path: "/" + event.target.classFeature.value, value: formatTextToAPI(event.target.valField.value)}) + "]",
+            body: "[" + JSON.stringify({op: "replace", path: "/" + event.target[0].value, value: formatTextToAPI(event.target.valField.value)}) + "]",
         };
 
         console.log(requestOptions)
 
-        fetch("http://localhost:8080/classFeatures/" + selectedClassFeature.classFeatureID, requestOptions).then( response => response.json());
+        //fetch("http://localhost:8080/classFeatures/" + selectedClassFeature.classFeatureID, requestOptions).then( response => response.json());
 
         refreshClassFeatures();
     }
@@ -113,19 +138,10 @@ export default function ClassFeatureForm()
 
     return(
         <form onSubmit={handleSubmit}>
-            <select name="allClassFeatures" id="allClassFeatures" onChange={changeClassFeature}>
-                <option value="placeholder">Choose class feature</option>
-                {totalClassFeatures.map(classFeature => (
-                    <option key={classFeature.classFeatureID} value={classFeature.classFeatureID}>{classFeature.name}</option>
-            ))}
-            </select>
-            <select name="classFeature" id="classFeature" onChange={changeParam}>
-                <option value="placeholder">Choose parameter</option>
-                {Object.keys(selectedClassFeature).map( key => (
-                    <option key={key} value={key}> {key}</option>
-                ))}
-            </select>
-            <textarea name="valField" id="valField" rows="15" cols="75" defaultValue={ formatTextToDisplay(selectedClassFeature[selectedParam])} />
+            <ClassFeatureDropdown totalClassFeatures={totalClassFeatures} changeClassFeature={changeClassFeature}/>
+            { Object.keys(selectedClassFeature).length > 0 && 
+                <ClassFeatureVariableEdit input={selectedClassFeature} />
+            }
             <input type="submit" value="Submit"/>
         </form>
     )

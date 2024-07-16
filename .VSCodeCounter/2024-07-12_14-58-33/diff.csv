@@ -1,0 +1,35 @@
+"filename", "language", "JavaScript JSX", "JavaScript", "comment", "blank", "total"
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Attributes\AttributeDisplayTable.jsx", "JavaScript JSX", -4, 0, 0, 0, -4
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Buffs\BuffForm.jsx", "JavaScript JSX", -99, 0, -14, -19, -132
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Buffs\BuffList.jsx", "JavaScript JSX", -66, 0, -8, -8, -82
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Buffs\BuffSelector.jsx", "JavaScript JSX", -81, 0, -7, -11, -99
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Buffs\BuffSelectorItem.jsx", "JavaScript JSX", -27, 0, 0, -6, -33
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Buffs\SelectedBuffItem.jsx", "JavaScript JSX", -48, 0, -1, -14, -63
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Characters\Functions\Gameplay\attributes.js", "JavaScript", 0, 81, 0, 19, 100
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Characters\Functions\Gameplay\hp.js", "JavaScript", 0, -1, 0, 1, 0
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Characters\Functions\initialiseChar.js", "JavaScript", 0, 45, 2, 20, 67
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Characters\Sheet Tabs\BasicsTab.jsx", "JavaScript JSX", 1, 0, 0, 0, 1
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Characters\Sheet Tabs\Combat\ActionTable\Action.jsx", "JavaScript JSX", 12, 0, 0, 1, 13
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Characters\Sheet Tabs\Combat\ActionTable\ActionColumn.jsx", "JavaScript JSX", 11, 0, 2, 2, 15
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Characters\Sheet Tabs\Combat\ActionTable\ActionTable.jsx", "JavaScript JSX", 64, 0, 2, 4, 70
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Characters\Sheet Tabs\Combat\CombatTab.jsx", "JavaScript JSX", 12, 0, 0, 0, 12
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\ClassFeatures\ClassFeatureDropdown.jsx", "JavaScript JSX", 12, 0, 3, 2, 17
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\ClassFeatures\ClassFeatureDropdownItem.jsx", "JavaScript JSX", 6, 0, 2, 1, 9
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\ClassFeatures\ClassFeatureForm.jsx", "JavaScript JSX", 111, 0, 17, 20, 148
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\ClassFeatures\ClassFeatureList.jsx", "JavaScript JSX", 66, 0, 8, 8, 82
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\ClassFeatures\ClassFeatureSelector.jsx", "JavaScript JSX", 81, 0, 7, 11, 99
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\ClassFeatures\ClassFeatureSelectorItem.jsx", "JavaScript JSX", 27, 0, 0, 6, 33
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\ClassFeatures\ClassFeatureVariableDropdown.jsx", "JavaScript JSX", 11, 0, 3, 1, 15
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\ClassFeatures\ClassFeatureVariableEdit.jsx", "JavaScript JSX", 147, 0, 16, 20, 183
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\ClassFeatures\SelectedClassFeatureItem.jsx", "JavaScript JSX", 48, 0, 1, 14, 63
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Classes\All\Barbarian\Features\rage.js", "JavaScript", 0, 34, 0, 12, 46
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Classes\All\Barbarian\abilitiesBarbarian.js", "JavaScript", 0, 7, 0, 3, 10
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Classes\classAbilities.js", "JavaScript", 0, 15, 0, 3, 18
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Generic\APIFunctions.js", "JavaScript", 0, 10, 6, 3, 19
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Generic\URL.js", "JavaScript", 0, 4, 1, 0, 5
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Pages\EditBuff.jsx", "JavaScript JSX", -10, 0, 0, -1, -11
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Pages\EditClassFeature.jsx", "JavaScript JSX", 10, 0, 0, 1, 11
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Pages\New\NewBuff.jsx", "JavaScript JSX", -58, 0, -2, -11, -71
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Pages\New\NewClassFeature.jsx", "JavaScript JSX", 58, 0, 2, 11, 71
+"c:\Users\annem\Documents\Programming\pathfinder-sheet\src\assets\Skills\SkillRow.jsx", "JavaScript JSX", 1, 0, 0, 0, 1
+"Total", "-", 285, 195, 40, 93, 613
